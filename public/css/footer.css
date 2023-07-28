@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Montserrat:wght@200&display=swap');
+
+* {
+    margin: 0 !important;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+body {
+    font-family: "Montserrat", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --text-color-1: #111 !important;
+    --bg-color-1: #f6f6f6 !important;
+    --text-color-2: #666 !important;
+    --bg-color-2: #ca1515 !important;
+    --text-color-3: #fff !important;
+}
+
+/* footer */
+.footer .row>div {
+    padding-top: 64px !important;
+}
+
+.footer {
+    width: 1200px;
+    max-width: calc(100% - 16px);
+    margin: auto !important;
+}
+
+.margin-ft {
+    margin: 0px 0px 24px !important;
+}
+
+.footer .footer--about__text {
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--text-color-2);
+}
+
+.footer .footer--about__paymoment {
+    text-align: center;
+}
+
+.footer--about__paymoment a {
+    margin: 0 12px !important;
+}
+
+.footer--link__title,
+.footer--newsletter__title {
+    line-height: 18.8px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-color-1);
+}
+
+.footer--link ul li a {
+    font-size: 14px;
+    line-height: 30px;
+    color: var(--text-color-2);
+}
+
+.footer--newsletter form {
+    border-radius: 30px;
+    display: flex;
+    padding: 4px 4px 4px 24px;
+    border: 1px solid #ccc;
+}
+
+.footer--newsletter button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    background-color: var(--bg-color-2);
+    color: var(--text-color-3);
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.footer--newsletter input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+}
+
+.footer--newsletter ul {
+    justify-content: space-around;
+    padding: 0 !important;
+    width: 100%;
+    text-align: center;
+    display: flex;
+}
+
+.footer--newsletter ul li a {
+    color: var(--text-color-1);
+    font-size: 24px;
+    padding: 16px;
+}
+
+.footer--copyright__text {
+    font-size: 14px;
+    color: var(--text-color-2);
+    text-align: center;
+    padding: 24px 0;
+    border-top: 1px solid #ccc;
+}

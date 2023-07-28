@@ -1,0 +1,146 @@
+:root {
+    --text-color-1: #111 !important;
+    --bg-color-1: #f6f6f6 !important;
+    --text-color-2: #666 !important;
+    --bg-color-2: #ca1515 !important;
+    --text-color-3: #fff !important;
+}
+
+.login-main {
+    background-position: 50% 0%;
+    min-height: 600px;
+    background-image: url(../img/category-1.jpg.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-content {
+    padding-bottom: 32px;
+    float: right;
+    width: 360px;
+    max-width: calc(100% - 64px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.login-content__title,
+.login-content__text {
+    text-align: right;
+}
+
+.login-bg {
+    width: 1200px;
+    max-width: calc(100% - 32px);
+}
+
+.login-form {
+    margin: auto !important;
+    width: 360px;
+    max-width: calc(100% - 32px);
+    padding: 32px;
+    border-radius: 30px;
+    background-color: var(--bg-color-1);
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form__title,
+.login-content__title {
+    font-size: 24px;
+    line-height: 28.8px;
+    padding: 8px 0 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.login-form form input {
+    padding: 12px 24px;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 30px;
+    margin: 8px 0 !important;
+}
+
+.btn-submit {
+    background-color: var(--bg-color-2);
+    color: var(--text-color-3);
+}
+.form-or{
+    text-align: center;
+}
+/* register */
+.register {
+    visibility: hidden;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    padding: 36px;
+    transition: all 1s ease-in-out ;
+}
+
+.register-bg {
+
+    position: relative;
+    background-color: var(--bg-color-1);
+    width: 360px;
+    max-width: calc(100% - 32px);
+    border-radius: 50px;
+    transition: .3s ease-in-out;
+}
+
+.close-register {
+    position: absolute;
+    top: 16px;
+    right: 36px;
+    font-size: 24px;
+    transition: .3s ease-in-out;
+}
+
+.close-register:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
+    transition: .3s ease-in-out;
+}
+
+.register form {
+    width: 100%;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form,
+form input,
+select {
+    padding: 12px 24px;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 30px;
+    margin: 8px 0 !important;
+}
+
+.register__tite {
+    margin-left: 32px !important;
+    margin-top: 16px !important;
+    font-size: 24px;
+    line-height: 28.8px;
+    font-weight: 600;
+}
+.open-form{
+    visibility: visible;
+    opacity: 1;
+}

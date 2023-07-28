@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Montserrat:wght@200&display=swap');
+
+* {
+    margin: 0 !important;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+body {
+    font-family: "Montserrat", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --text-color-1: #111 !important;
+    --bg-color-1: #f6f6f6 !important;
+    --text-color-2: #666 !important;
+    --bg-color-2: #ca1515 !important;
+    --text-color-3: #fff !important;
+}
+
+nav {
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.close-menu,
+.open-menu {
+    display: none;
+}
+
+
+.main-nav {
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li a {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--text-color-1);
+    padding: 16px;
+    text-align: center;
+    transition: 0.15s ease-in-out;
+    text-transform: uppercase;
+}
+
+.main-nav li a::after {
+    display: block;
+    content: "";
+    height: 1px;
+    width: 0%;
+    background-color: var(--bg-color-2);
+    transition: 0.15s ease-in-out;
+}
+
+.main-nav li a:hover::after {
+    width: 100%;
+}
+
+header {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    height: 84px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px;
+    align-items: center;
+}
+
+.shop-action {
+    padding: 0 16px;
+}
+
+.shop-action__icon {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.text-login {
+    color: var(--text-color-1);
+}
+
+.login-action {
+    cursor: pointer;
+    border: 1px solid var(--text-color-1);
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 8px 24px;
+}
+
+.login-control {
+    position: relative;
+}
+
+.login-control a {
+    display: inline-block;
+    color: var(--text-color-1);
+}
+
+.login-control:hover .login-control__content {
+    opacity: 1;
+    visibility: visible;
+    transition: all .8s ease-in-out;
+}
+
+.login-control__content a::after {
+    display: block;
+    content: "";
+    height: 1px;
+    width: 0%;
+    background-color: var(--bg-color-2);
+    transition: all .8s ease-in-out;
+}
+
+.login-control__content a:hover::after {
+    width: 100%;
+    transition: all .8s ease-in-out;
+}
+
+.login-control__content {
+    opacity: 0;
+    visibility: hidden;
+    transition: all .8s ease-in-out;
+    top: 30px;
+    right: -30px;
+    border-radius: 30px;
+    padding: 16px;
+    position: absolute;
+    background-color: var(--bg-color-1);
+}
+
+.login-control__content a {
+    color: var(--text-color-1);
+}
+
+.login-control__content input {
+    border: none;
+    background-color: var(--bg-color-2);
+    color: var(--text-color-3);
+    padding: 8px 16px;
+    border-radius: 30px;
+    margin-top: 16px !important;
+}
+
+/* main */
+main {
+    background-color: var(--bg-color-1);
+}
+
+/* banner */
+
+.grid-left-bg {
+    height: 600px;
+    min-height: 100%;
+    background-position: 50% 0%;
+    background-image: url(../img/category-1.jpg.webp);
+    background-size: cover;
+    margin-left: 16px;
+}
+
+.grid-row--top,
+.grid-row--bot {
+    height: 335px;
+}
+
+.grid-row--top__1 {
+    background-image: url(../img/category-2.jpg.webp);
+}
+
+.grid-row--top__2 {
+    background-image: url(../img/category-3.jpg.webp);
+}
+
+.grid-row--bot__1 {
+    background-image: url(../img/category-4.jpg.webp);
+}
+
+.grid-row--bot__2 {
+    background-image: url(../img/category-5.jpg.webp);
+}
+
+.w-banner div {
+    background-position: 50% 0%;
+    background-size: cover;
+}
+
+.w-banner {
+    width: 50% !important;
+    height: 100%;
+}
+
+.pad-12 {
+    padding: 12px 0;
+}
