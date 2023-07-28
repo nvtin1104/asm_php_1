@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<?
+require('../inc/connect.php');
+
+// Thiết lập kết nối sử dụng ký tự unicode
+$mysqli->set_charset("utf8mb4");
+
+// Chọn database
+if (!$mysqli->select_db($dbname)) {
+    die("Không thể chọn database: " . $mysqli->error);
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -12,12 +23,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </head>
+
 <body>
-   <header>
-   <?
-    require('../inc/header.php')
-    ?>
-   </header>
+    <header>
+        <?
+        require('../inc/header.php')
+        ?>
+    </header>
     <main>
         <section class="banner-grid px-0 row container-fluid">
             <div class="grid-left col-lg-6 col-md-12 pad-12">
@@ -94,15 +106,7 @@
             </div>
             <div class="row new-product--library">
                 <?php
-              require('../inc/connect.php');
-                
-                // Thiết lập kết nối sử dụng ký tự unicode
-                $mysqli->set_charset("utf8mb4");
-                
-                // Chọn database
-                if (!$mysqli->select_db($dbname)) {
-                    die("Không thể chọn database: " . $mysqli->error);
-                }
+
 
                 // Truy vấn dữ liệu sản phẩm
                 $sql = "SELECT * FROM products";
@@ -121,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="new-product--item__text">
-                                <a href="./product_detail.php?id='. $row["product_id"].'" class="name">'. $row["product_name"] .'</a>
+                                <a href="./product_detail.php?id=' . $row["product_id"] . '" class="name">' . $row["product_name"] . '</a>
                                 <div class="rating">
                                     <i class="fa-regular fa-star"></i>
                                     <i class="fa-regular fa-star"></i>
@@ -130,7 +134,7 @@
                                     <i class="fa-regular fa-star"></i>
                                 </div>
                                 <div class="price">
-                                    $' . $row["price"] .'
+                                    $' . $row["price"] . '
                                 </div>
                             </div>
                         </div>
@@ -143,11 +147,11 @@
             </div>
         </section>
     </main>
-   <footer>
-    <?
-    require('../inc/footer.php')
-    ?>
-   </footer>
+    <footer>
+        <?
+        require('../inc/footer.php')
+        ?>
+    </footer>
 </body>
 <script src="../libs/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 

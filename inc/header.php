@@ -1,9 +1,3 @@
-<?php
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,10 +34,9 @@
             <div class="btn-action d-flex">
                 <div class="login-action">
                     <?
+                    session_start();
                     include('../libs/function/user.php');
-                   
                     if (isset($_SESSION['isLogined']) && $_SESSION['isLogined'] == true) {
-                        session_start();
                         $serializedUser = $_SESSION['current_user'];
                         $user = unserialize($serializedUser);
                         echo '<div class="login-control">
@@ -62,12 +55,66 @@
                 <div class="shop-action d-flex">
                     <div class="shop-action__icon"><i class="fa-solid fa-magnifying-glass"></i> </div>
                     <div class="shop-action__icon"><i class="fa-solid fa-heart"></i></div>
-                    <div class="shop-action__icon">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
+                    <div class="shop-action__icon shopping-cart--icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div class="shoping-cart__hover d-flex flex-column ">
+                            <div class="shopping-cart__title d-flex align-items-center">
+                                <p>Cart</p>
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </div>
+                            <?
+                            if (isset($_SESSION['isLogined']) && $_SESSION['isLogined'] == true) {
 
+                                $serializedUser = $_SESSION['current_user'];
+                                $user = unserialize($serializedUser);
+                                $user_id = $user->user_id;
+                                $sql = "SELECT * FROM cart_items WHERE user_id ='$user_id'";
+                                $reslut = mysqli_query($mysqli, $sql);
+                                if (mysqli_num_rows($reslut) > 0) {
+                                    $row = mysqli_fetch_assoc($reslut);
+                                    echo '<div class="shopping-cart__content">
+                                    <table class="shopping-cart--table">
+                                        <tr>
+                                            <th class="stt">STT</th>
+                                            <th class="name">Name</th>
+                                            <th class="img">Image</th>
+                                            <th class="quantity">Quantity</th>
+                                            <th class="action">Action</th>
+                                        </tr>
+                                        <tr class="tb-row">                                     
+                                            <td class="stt">1</td>
+                                            <td class="name ">
+                                                <p>' . $row['product_id'] . '</p>
+                                            </td>
+                                            <td class="img"><img src="link_to_image_1.jpg" alt="Product A"></td>
+                                            <td class="quantity">10</td>
+                                            <td class="action">
+                                                <a href="#"><i class="fa-solid fa-xmark"></i></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="shopping-cart__bottom  d-flex justify-content-between">
+                                        <div class="shopping-cart--total"><span class="total-title">Total price:</span>10000</div>
+                                        <div class="shopping-cart--acction">
+                                            <a class="go-to-cart" href="#">Go to Cart</a>
+                                            <a class="go-to-payment" href="#">Go to Payment</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                } else
+                                    echo ' <div class="shopping-cart__nocontent d-flex justify-content-center">
+                                <p class="no-content">No Product</p><span><a class="go-to-shop" href="#">Go to shop</a></span>
+                            </div>';
+                            } else
+                                echo ' <div class="shopping-cart__nocontent d-flex justify-content-center">
+                            <p class="no-content">No Product</p><span><a class="go-to-shop" href="#">Go to shop</a></span>
+                        </div>';
+                            ?>
+
+
+                        </div>
                     </div>
+
                 </div>
             </div>
         </nav>
@@ -75,35 +122,12 @@
         <label for="check" class="open-menu"><i class="fa-solid fa-bars"></i></label>
     </header>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div id="custom-modal" class="d-flex justify-content-center align-items-center h-100">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 <script>
     let nav = document.querySelector('nav');
     let check = document.querySelector('#check');
     check.addEventListener('click', function() {
         nav.classList.toggle('open-menu-rule');
-    });
-    let close = document.querySelector('#custom-modal');
-    close.addEventListener('click', function() {
-        console.log('close');
     });
 </script>
 
