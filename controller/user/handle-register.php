@@ -5,7 +5,7 @@ if (!isset($_POST['txtUsername'])) {
 }
 
 // Nhúng file kết nối với database
-include('../../inc/connect.php');
+include('../database/connect.php');
 
 // Khai báo utf-8 để hiển thị được tiếng việt
 header('Content-Type: text/html; charset=UTF-8');

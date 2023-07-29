@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký</title>
-    <link rel="stylesheet" href="../public/css/styles.css">
-    <link rel="stylesheet" href="../public/css/reponsive.css">
-    <link rel="stylesheet" href="../public/css/register.css">
-    <link rel="stylesheet" href="../libs/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./public/css/reponsive.css">
+    <link rel="stylesheet" href="./public/css/register.css">
+    <link rel="stylesheet" href="./libs/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
@@ -17,9 +16,7 @@
 </head>
 
 <body>
-    <?
-    include('../inc/header.php');
-    ?>
+
     <main>
         <div class="container-fluid login-main">
             <div class="row login-bg">
@@ -37,7 +34,7 @@
 
                     <div class="login-form">
                         <h6 class="login-form__title">Login</h6>
-                        <form class="" action="../controller/user/handle-login.php" method="post">
+                        <form class="" action="./controller/user/handle-login.php" method="post">
                             <input type='text' name='txtUsername' placeholder="User name" />
                             <input type='password' name='txtPassword' placeholder="Password" />
                             <input class="btn-submit" type="submit" name="login" value="Login">
@@ -55,7 +52,7 @@
             <div class="close-register">
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <form action="../controller/user/handle-register.php" method="post">
+            <form action="./controller/user/handle-register.php" method="post">
                 <input type="text" name="txtUsername" placeholder="User name" />
                 <input type="password" name="txtPassword" placeholder="Password" />
                 <input type="text" name="txtEmail" placeholder="Email" />
@@ -71,11 +68,6 @@
             </form>
         </div>
     </section>
-    <footer>
-        <?
-        require('../inc/footer.php')
-        ?>
-    </footer>
 </body>
 <script>
     // register event listeners

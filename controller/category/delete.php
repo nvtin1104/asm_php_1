@@ -1,7 +1,6 @@
 <?php
 if (isset($_GET['id'])) {
     $cat_id = $_GET['id'];
-    include('../../inc/connect.php');
     $sql = "DELETE FROM cat_product WHERE cat_id = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("i", $cat_id);
@@ -9,11 +8,9 @@ if (isset($_GET['id'])) {
         $stmt->execute()
     ) {
         echo "success";
-        header('Refresh: 2; url=../index.php?m=category&a=cat');
+        header('Refresh: 2; url=./index.php?m=category&a=cat');
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>

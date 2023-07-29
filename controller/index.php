@@ -4,6 +4,8 @@
 // Định nghĩa một hằng số bảo vệ project
 define("IN_SITE", true);
 session_start();
+include_once('./database/connect.php');
+
 // Lấy module và action trên URL
 $action = isset($_GET['a']) ? $_GET['a'] : '';
 $module = isset($_GET['m']) ? $_GET['m'] : '';
@@ -71,7 +73,7 @@ $path =  './' . $module . '/' . $action . '.php';
                 <?
                 if (file_exists($path)) {
                     include_once($path);
-                    require_once('../libs/function/user.php');
+                    include('./database/user.php');
                 }
                 ?>
             </div>

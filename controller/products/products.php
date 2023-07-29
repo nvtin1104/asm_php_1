@@ -18,7 +18,6 @@
 <body>
     <h3>Danh sách sản phẩm:</h3>
     <?php
-    include('../inc/connect.php');
     $sql = "SELECT * FROM products";
     $result = mysqli_query($mysqli, $sql);
 
@@ -29,7 +28,7 @@
         echo '<tr>';
         echo '<th>Tên sản phẩm</th>';
         echo '<th>Giá</th>';
-        echo '<th>Mô tả</th>';
+        echo '<th>Nhãn hàng</th>';
         echo '<th>Hình ảnh</th>';
         echo '<th>Thao tác</th>'; // New column for action buttons
         echo '</tr>';
@@ -40,12 +39,12 @@
             echo '<tr>';
             echo '<td>' . $row["product_name"] . '</td>';
             echo '<td>' . $row["price"] . '</td>';
-            echo '<td>' . $row["description"] . '</td>';
-            echo '<td><img src="' . $row["image"] . '" alt="Product Image" class="img-thumbnail" style="max-width: 100px;"></td>';
+            echo '<td>' . $row["brand"] . '</td>';
+            echo '<td><img src=".' . $row["image"] . '" alt="Product Image" class="img-thumbnail" style="max-width: 100px;"></td>';
             echo '<td>';
-            echo '<a href="edit_product.php?id=' . $row["product_id"] . '" class="btn btn-primary">Sửa</a>'; // Edit button with a link to edit_product.php
+            echo '<a href="./index.php?m=products&a=edit&id=' . $row["product_id"] . '" class="btn btn-primary">Sửa</a>'; // Edit button with a link to edit_product.php
             echo ' ';
-            echo '<a href="./products/delete.php?id=' . $row["product_id"] . '" class="btn btn-danger">Xóa</a>'; // Delete button with a link to delete_product.php
+            echo '<a href="./index.php?m=products&a=delete&id=' . $row["product_id"] . '" class="btn btn-danger">Xóa</a>'; // Delete button with a link to delete_product.php
             echo '</td>';
             echo '</tr>';
         }

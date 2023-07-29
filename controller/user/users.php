@@ -33,8 +33,6 @@
             </thead>
             <tbody>
                 <?php
-                // Kết nối CSDL (thay đổi thông tin kết nối cho phù hợp)
-                include('../inc/connect.php');
                 // Truy vấn dữ liệu người dùng
                 $sql = "SELECT * FROM users";
                 $result = mysqli_query($mysqli, $sql);
@@ -51,7 +49,7 @@
                         echo "<td>" . $row['role'] . "</td>";
                         echo '<td>
                                 <a href="edit_user.php?id=' . $row['user_id'] . '" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="delete_user.php?id=' . $row['user_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure?\')">Delete</a>
+                                <a href="index.php?m=user&a=delete&id=' . $row['user_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure?\')">Delete</a>
                               </td>';
                         echo "</tr>";
                     }

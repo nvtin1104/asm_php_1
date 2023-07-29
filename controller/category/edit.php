@@ -1,40 +1,39 @@
-<?php
+<?
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $cat_id = (int)$_SESSION['edit_id'];
-
+include('./database/function.php');
 if (isset($_POST['edit-cat'])) {
     // Giả sử cat_id được gửi từ form khi submit.
-    $cat_name = $_POST['cat_name'];
-    $path = '../inc/connect.php';
-    if (file_exists($path)) include($path);
-    // Bước 1: Chuẩn bị truy vấn UPDATE sử dụng prepared statement
-    $sql = "UPDATE cat_product SET cat_name = ? WHERE cat_id = ?";
-    $stmt = $mysqli->prepare($sql);
+    $catname = $_POST['cat_name'];
+    if (validateCategory($mysqli, $catname)) {
+        // Bước 1: Chuẩn bị truy vấn UPDATE sử dụng prepared statement
+        $sql = "UPDATE cat_product SET cat_name = ? WHERE cat_id = ?";
+        $stmt = $mysqli->prepare($sql);
+        // Bước 2: Kiểm tra và thực thi truy vấn UPDATE
+        if ($stmt) {
+            // Sử dụng bind_param để gắn các giá trị vào truy vấn (bind parameters)
+            $stmt->bind_param("si", $catname, $cat_id);
+            // Thực thi truy vấn
+            if ($stmt->execute()) {
+                // Truy vấn UPDATE đã được thực hiện thành công
+                echo "Dữ liệu đã được chỉnh sửa thành công.";
+                unset($_SESSION['cat_edit']);
+            } else {
+                // Xảy ra lỗi khi thực hiện truy vấn
+                echo "Lỗi khi thực hiện truy vấn: " . $stmt->error;
+            }
 
-    // Bước 2: Kiểm tra và thực thi truy vấn UPDATE
-    if ($stmt) {
-        // Sử dụng bind_param để gắn các giá trị vào truy vấn (bind parameters)
-        $stmt->bind_param("si", $cat_name, $cat_id);
-        // Thực thi truy vấn
-        if ($stmt->execute()) {
-            // Truy vấn UPDATE đã được thực hiện thành công
-            echo "Dữ liệu đã được chỉnh sửa thành công.";
+            // Đóng câu truy vấn
+            $stmt->close();
         } else {
-            // Xảy ra lỗi khi thực hiện truy vấn
-            echo "Lỗi khi thực hiện truy vấn: " . $stmt->error;
+            // Xảy ra lỗi khi chuẩn bị truy vấn
+            echo "Lỗi khi chuẩn bị truy vấn: " . $mysqli->error;
         }
-
-        // Đóng câu truy vấn
-        $stmt->close();
-    } else {
-        // Xảy ra lỗi khi chuẩn bị truy vấn
-        echo "Lỗi khi chuẩn bị truy vấn: " . $mysqli->error;
+        // Đóng kết nối
+        $mysqli->close();
     }
-
-    // Đóng kết nối
-    $mysqli->close();
 }
 ?>
 

@@ -1,19 +1,22 @@
-<?php
+<?
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('./database/function.php');
+$edit_id = (int)$_SESSION['edit_id'];
+$product_row = getRecord1Where($mysqli, 'products','product_id',$edit_id);
+
 // Xử lý dữ liệu gửi từ form
-if (isset($_POST["add_product"])) {
-    $product_name = addslashes($_POST["product_name"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_product"])) {
+    $product_name = $_POST["product_name"];
     $product_code = $_POST["product_code"];
     $price = $_POST["price"];
-    $description = addslashes($_POST["description"]);
-    $brand = addslashes($_POST["brand"]);
-    $shortDescription = addslashes($_POST["short-description"]);
-    $cat_id = $_POST["cat_id"];    
-    $url_back =" <a href='../controller/index.php?m=products&a=products'>Trở lại</a>";
-    if (empty($description) || empty($brand) || empty($shortDescription) || empty($cat_id) || empty($product_code) || empty($product_name) || empty($price) || empty($_FILES['image']['name'])) {
-        // Nếu có bất kỳ trường dữ liệu nào bị rỗng, xử lý thông báo lỗi hoặc yêu cầu người dùng nhập đủ thông tin.
-        echo "Vui lòng nhập đầy đủ thông tin sản phẩm." . $url_back;
-        die();
-    }
+    $description = $_POST["description"];
+    $brand = $_POST["brand"];
+    $shortDescription = $_POST["short-description"];
+    $cat_id = $_POST["cat_id"];
+
+   // Xử lý tệp hình ảnh
     $target_dir = addslashes("./uploads/");
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -27,10 +30,19 @@ if (isset($_POST["add_product"])) {
         // Upload tệp hình ảnh vào thư mục "uploads"
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file_upload)) {
             // Lưu thông tin sản phẩm vào cơ sở dữ liệu
-            $sql = "INSERT INTO products (product_name, product_code, brand, price, description,short_description, image, cat_id)
-             VALUES ('$product_name','$product_code','$brand','$price', '$description','$shortDescription', '$target_file','$cat_id')";
+            $sql = "UPDATE products 
+                    SET product_name = '$product_name', 
+                        product_code = '$product_code', 
+                        brand = '$brand', 
+                        price = '$price', 
+                        description = '$description', 
+                        short_description = '$shortDescription', 
+                        image = '$target_file_upload', 
+                        cat_id = '$cat_id'
+                    WHERE product_id = '$edit_id'";
             if (mysqli_query($mysqli, $sql)) {
-                echo "Sản phẩm đã được tải lên thành công.";
+                echo "Sản phẩm đã được update thành công.";
+                header("Refresh: 2; url=./index.php?m=products&a=products");
             } else {
                 echo "Lỗi: " . $sql . "<br>" . mysqli_error($mysqli);
             }
@@ -56,6 +68,27 @@ if (isset($_POST["add_product"])) {
         textarea {
             margin: 12px 0px !important;
         }
+
+        textarea {
+            height: 6em;
+            /* Chiều cao mặc định khi không có nội dung */
+        }
+
+        textarea::placeholder {
+
+            color: transparent;
+            /* Ẩn placeholder mặc định */
+        }
+
+        textarea:focus::placeholder {
+            color: #aaa;
+            /* Hiển thị placeholder khi textarea có focus */
+        }
+
+        textarea:not(:placeholder-shown) {
+            height: auto;
+            /* Khi có nội dung, textarea sẽ tự điều chỉnh chiều cao */
+        }
     </style>
 </head>
 
@@ -66,15 +99,15 @@ if (isset($_POST["add_product"])) {
                 <form method="POST" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="product_name">Tên sản phẩm:</label>
-                        <input type="text" class="form-control" name="product_name" placeholder="Tên sản phẩm">
+                        <input type="text" class="form-control" name="product_name" placeholder="<? echo $product_row['product_name'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="brand">Tên nhãn hàng:</label>
-                        <input type="text" class="form-control" name="brand" id="brand" placeholder="Tên nhãn hàng">
+                        <input type="text" class="form-control" name="brand" id="brand" placeholder="<? echo $product_row['brand'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="product_code">Mã sản phẩm:</label>
-                        <input type="text" class="form-control" id="product_code" name="product_code" placeholder="Ví dụ: SP001">
+                        <input type="text" class="form-control" id="product_code" name="product_code" placeholder="<? echo $product_row['product_code'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="cat_id">Danh mục:</label>
@@ -92,21 +125,21 @@ if (isset($_POST["add_product"])) {
                     </div>
                     <div class="form-group">
                         <label for="price">Giá</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="Ví dụ: 1000">
+                        <input type="number" class="form-control" id="price" name="price" placeholder="<? echo $product_row['price'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="short-description">Mô tả ngắn</label>
-                        <textarea name="short-description" id="short-description" class="form-control" placeholder="Mô tả ngắn 150 kí tự!"></textarea>
+                        <textarea name="short-description" id="short-description" class="form-control" placeholder="<? echo $product_row['short_description'] ?>"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="description">Mô tả:</label>
-                        <textarea name="description" id="description" class="form-control" placeholder="<? ?>"></textarea>
+                        <textarea name="description" id="description" class="form-control" placeholder="<? echo $product_row['description'] ?>"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="flie">Hình ảnh:</label>
                         <input type="file" name="image" id="flie" class="form-control">
                     </div>
-                    <input class="btn btn-primary" type="submit" name="add_product" value="Save">
+                    <input class="btn btn-primary" type="submit" name="edit_product" value="Save">
                 </form>
             </div>
         </div>

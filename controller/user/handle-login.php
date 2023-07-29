@@ -1,14 +1,10 @@
 <?php
 session_start();
-include('../../libs/function/user.php');
-// Khai báo utf-8 để hiển thị được tiếng Việt
-header('Content-Type: text/html; charset=UTF-8');
-
+include('../database/connect.php');
+include('../database/user.php');
 // Xử lý đăng nhập
 if (isset($_POST['login'])) {
     // Kết nối tới database
-    include('../../inc/connect.php');
-
     // Lấy dữ liệu nhập vào và xử lý chống SQL Injection
     $username = addslashes($_POST['txtUsername']);
     $password = addslashes($_POST['txtPassword']);
@@ -39,7 +35,7 @@ if (isset($_POST['login'])) {
         if ($row['role'] == 2) {
             header("Refresh: 2; url =../index.php");
         } elseif ($row['role'] == 1) {
-            header("Refresh: 2; url=../../pages/index.php");
+            header("Refresh: 2; url=../index.php");
         } else {
             echo "Error";
         }

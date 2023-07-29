@@ -58,4 +58,9 @@ $dbConnection->selectDatabase();
 
 // Now you can use the database connection wherever needed
 $mysqli = $dbConnection->getConnection();
+
+
+
+
+
 ?>
