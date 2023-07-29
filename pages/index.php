@@ -115,9 +115,11 @@ if (!$mysqli->select_db($dbname)) {
                 // Hiển thị sản phẩm
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
+                        // var_dump($row);  
                         echo '<div class="col-lg-3 col-md-4 col-sm-6 mgb">
                         <div class="new-product--item">
-                            <div class="new-product--item__img set-bg" style="background-image: url("../uploads/conan.jpg");">
+                            <div class="new-product--item__img set-bg">
+                            <img src="'.$row['image'].'"></img>
                                 <div class="hover-content">
                                     <a href="#"><i class="fa-solid fa-info"></i></a>
                                     <a href="#"><i class="fa-regular fa-heart"></i></a>

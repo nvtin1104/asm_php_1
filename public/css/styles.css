@@ -25,11 +25,13 @@ body {
     --bg-color-2: #ca1515 !important;
     --text-color-3: #fff !important;
 }
+
 header {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     background-color: #fff;
     height: 84px;
 }
+
 /* main */
 main {
     background-color: var(--bg-color-1);
@@ -278,10 +280,9 @@ main {
 
 }
 
-.set-bg {
-    background-position: top right;
-    background-repeat: no-repeat;
-    background-size: cover;
+.set-bg img {
+    width: 100%;
+    height: 100%;
 }
 
 .new-product--item__text {

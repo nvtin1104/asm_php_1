@@ -38,7 +38,6 @@
                 // Truy vấn dữ liệu người dùng
                 $sql = "SELECT * FROM users";
                 $result = mysqli_query($mysqli, $sql);
-
                 // Hiển thị dữ liệu trong bảng
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
