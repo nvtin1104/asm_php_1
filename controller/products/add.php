@@ -9,10 +9,14 @@ if (isset($_POST["add_product"])) {
     $brand = addslashes($_POST["brand"]);
     $shortDescription = addslashes($_POST["short-description"]);
     $cat_id = $_POST["cat_id"];
-    $url_back = " <a href='../controller/index.php?m=products&a=products'>Trở lại</a>";
+    $url_back = " <a href='javascript: history.go(-1)'>Trở lại</a>";
     validateProduct($product_name, $product_code, $price, $shortDescription, $description, $brand, $cat_id);
     if (!empty($_FILES['image']['name'])) {
         $result = uploadImage($_FILES["image"],);
+        if (strlen($result) > 225) {
+            echo "Tên file quá dài vui lòng đổi lại" . $url_back;
+            die();
+        }
         if (isset($result)) {
             $sql = "INSERT INTO products (product_name, product_code, brand, price, description,short_description, image, cat_id)
              VALUES ('$product_name','$product_code','$brand','$price', '$description','$shortDescription', '$result','$cat_id')";

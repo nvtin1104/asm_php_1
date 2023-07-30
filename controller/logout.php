@@ -7,7 +7,7 @@ if (isset($_GET['log-out'])) {
     // Xóa session đăng nhập   
     $_SESSION['isLogined'] = false;
     echo "SUccesfully logout  ";    
-    header("Refresh: 2; url=../pages/index.php");
+    header("Refresh: 2; url=../index.php");
     exit;
 }
 else echo 'Error';

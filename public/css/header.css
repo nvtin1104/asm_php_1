@@ -215,7 +215,7 @@ main {
     position: relative;
 }
 
-.shoping-cart__hover{
+.shoping-cart__hover {
     opacity: 0;
     visibility: hidden;
     padding: 16px;
@@ -227,11 +227,13 @@ main {
     right: 0;
     transition: .5s ease-in-out;
 }
-.shopping-cart--icon:hover .shoping-cart__hover{
+
+.shopping-cart--icon:hover .shoping-cart__hover {
     opacity: 1;
     visibility: visible;
     transition: 1s ease-in-out;
 }
+
 .shoping-cart__hover i {
     font-size: 18px;
     margin: 0 16px !important;
@@ -305,7 +307,8 @@ td {
     border-radius: 50px;
     cursor: pointer;
 }
-.total-title{
+
+.total-title {
     font-size: 18px;
     font-weight: 600;
     padding-right: 8px;
@@ -321,11 +324,81 @@ td {
     color: var(--text-color-1);
     margin-right: 16px !important;
 }
+
 /* if no  */
-.shopping-cart__nocontent{
+.shopping-cart__nocontent {
     padding: 32px;
 }
-.go-to-shop{
+
+.go-to-shop {
     margin-left: 16px !important;
     border-bottom: 1px solid var(--text-color-1);
+}
+
+.search-modal-bg {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 9999999;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.search-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 84px;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+}
+
+.search-modal form {
+    display: flex;
+    width: 600px;
+    padding: 8px 16px 8px 32px;
+    border: 1px solid var(--text-color-2);
+    border-radius: 50px;
+    max-width: calc(100% - 64px);
+}
+
+.search-modal input {
+    min-width: auto;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+    flex-grow: 1;
+}
+
+.search-modal button {
+    border: none;
+    outline: none;
+    background-color: #fff;
+}
+
+.search-modal--close {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background-color: var(--bg-color-1);
+    cursor: pointer;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    top: 100px;
+}
+
+.active-modal {
+    visibility: visible;
+    opacity: 1;
 }

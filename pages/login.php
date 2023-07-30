@@ -16,7 +16,6 @@
 </head>
 
 <body>
-
     <main>
         <div class="container-fluid login-main">
             <div class="row login-bg">

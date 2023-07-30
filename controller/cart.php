@@ -2,7 +2,7 @@
 
 if (isset($_POST['add-to-cart'])) {
     session_start();
-    include('../inc/connect.php');
+    include('./database/connect.php');
     include('../libs/function/user.php');
     $serializedUser = $_SESSION['current_user'];
     $user = unserialize($serializedUser);
@@ -24,6 +24,8 @@ if (isset($_POST['add-to-cart'])) {
         $update_query = "UPDATE cart_items SET quantity = '$new_quantity', total_price = '$new_total' WHERE product_id = '$productId' AND user_id = '$user_id'";
         if (mysqli_query($mysqli, $update_query)) {
             echo "Success";
+            header("Refresh: 2; url=" . $_SERVER['HTTP_REFERER']);
+            exit;
         } else {
             echo "Failed to update quantity.";
         }
@@ -33,6 +35,8 @@ if (isset($_POST['add-to-cart'])) {
         $insert_query = "INSERT INTO cart_items (product_id, user_id, quantity, total_price) VALUES ('$productId', '$user_id', '$quantity', '$totalPrice')";
         if (mysqli_query($mysqli, $insert_query)) {
             echo "Success";
+            header("Refresh: 2; url=" . $_SERVER['HTTP_REFERER']);
+            exit;
         } else {
             echo "Failed to insert item." . mysqli_error($mysqli);
         }

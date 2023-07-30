@@ -1,8 +1,9 @@
 <?
 include('./controller/database/function.php');
-$limit = 12;
-$current_page = 1;
+$limit =  8;
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $result = paging($mysqli, $limit, $current_page, 'products');
+$total_pages = toalPagesPaging($mysqli, $limit, 'products');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +11,10 @@ $result = paging($mysqli, $limit, $current_page, 'products');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASM PHP</title>
+    <title>Shop</title>
     <link rel="stylesheet" href="./public/css/styles.css">
     <link rel="stylesheet" href="./public/css/reponsive.css">
+    <link rel="stylesheet" href="./public/css/paging.css">
     <link rel="stylesheet" href="./libs/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -21,66 +23,11 @@ $result = paging($mysqli, $limit, $current_page, 'products');
 
 <body>
     <main>
-        <section class="banner-grid px-0 row container-fluid">
-            <div class="grid-left col-lg-6 col-md-12 pad-12">
-                <div class="grid-left-bg d-flex align-items-center">
-                    <div class="big-banner__content">
-                        <h1 class="title">Women’s fashion</h1>
-                        <p class="text">Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
-                            edolore magna aliquapendisse ultrices gravida.</p>
-                        <a href="#" class="btn-banner">Shop now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="gird-right col-lg-6 col-md-12">
-                <div class="grid-row--top row w-100">
-                    <div class="pad-12 w-banner">
-                        <div class="grid-row--top__1 h-100 d-flex align-items-center">
-                            <div class="sm-banner__content">
-                                <h1 class="title">Men’s fashion</h1>
-                                <p class="text">375 items</p>
-                                <a href="#" class="btn-banner">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pad-12 w-banner">
-                        <div class="grid-row--top__2 h-100 d-flex align-items-center">
-                            <div class="sm-banner__content">
-                                <h1 class="title">Kid’s fashion</h1>
-                                <p class="text">375 items</p>
-                                <a href="#" class="btn-banner">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-row--bot row w-100">
-                    <div class="pad-12 w-banner">
-                        <div class="grid-row--bot__1 h-100 d-flex align-items-center">
-                            <div class="sm-banner__content">
-                                <h1 class="title">Cosmetics</h1>
-                                <p class="text">375 items</p>
-                                <a href="#" class="btn-banner">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pad-12 w-banner">
-                        <div class="grid-row--bot__2 h-100 d-flex align-items-center">
-                            <div class="sm-banner__content">
-                                <h1 class="title">Accessories</h1>
-                                <p class="text">375 items</p>
-                                <a href="#" class="btn-banner">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
         <section class="new-product">
             <div class="row row--title">
                 <div class="col-md-4 col-lg-4">
                     <div class="section-title">
-                        <h4>new product</h4>
+                        <h4>product</h4>
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-8">
@@ -124,9 +71,25 @@ $result = paging($mysqli, $limit, $current_page, 'products');
                     </div>
                 </div>';
                 }
+                echo '<div class="pagination">';
+                echo '<a href="./index.php?m=pages&a=shop&page=1"><i class="fa-solid fa-angles-left"></i></a>';
 
+                // Hiển thị các liên kết đến trang trước nếu trang hiện tại không phải là trang đầu
+                if ($current_page > 1) {
+                    echo '<a href="./index.php?m=pages&a=shop&page=' . ($current_page - 1) . '"><i class="fa-solid fa-angle-left"></i></a>';
+                }
+
+                // Hiển thị liên kết đến trang hiện tại
+                echo '<a class="active" href="./index.php?m=pages&a=shop&page=' . $current_page . '">' . $current_page . '</a>';
+
+                // Hiển thị các liên kết đến trang sau nếu trang hiện tại không phải là trang cuối
+                if ($current_page < $total_pages) {
+                    echo '<a href="./index.php?m=pages&a=shop&page=' . ($current_page + 1) . '"><i class="fa-solid fa-angle-right"></i></a>';
+                }
+
+                echo '<a href="./index.php?m=pages&a=shop&page=' . $total_pages . '"><i class="fa-solid fa-angles-right"></i></a>';
+                echo '</div>';
                 ?>
-
             </div>
         </section>
     </main>

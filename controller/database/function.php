@@ -1,4 +1,5 @@
 <?
+$url_back = " <a href='javascript: history.go(-1)'>Trở lại</a>";
 function delete1Where($mysqli, $tb_name, $where, $where_id)
 {
     // Chuẩn bị câu truy vấn DELETE với tên bảng và tên cột được nối vào truy vấn SQL
@@ -51,7 +52,8 @@ function getRecord1Where($mysqli, $tb_name, $where, $where_id)
         return null; // Trả về null nếu có lỗi
     }
 }
-function countWordsCustom($string) {
+function countWordsCustom($string)
+{
     $words = explode(" ", trim($string));
     return count($words);
 }
@@ -114,18 +116,42 @@ function uploadImage($file)
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
         return "Chỉ chấp nhận các tệp JPG, JPEG, PNG.";
     } else {
-        // Upload tệp hình ảnh vào thư mục "uploads"
-        if (move_uploaded_file($file["tmp_name"], $target_file_upload)) {
-            // Lưu thông tin sản phẩm vào cơ sở dữ liệu
-            return $target_file;
+        if (file_exists($target_file_upload)) {
+            $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
+            $newFileName = $fileName . '-Copy';
+            $target_file = $target_dir . $newFileName . '.' . $imageFileType;
+            $target_file_upload = $target_dir_upload . $newFileName . '.' . $imageFileType;
+
+            $cnt = 1;
+
+            while (file_exists($target_file_upload)) {
+                $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
+                $newFileName = $fileName . '-Copy(' . $cnt . ')';
+                $target_file = $target_dir . $newFileName . '.' . $imageFileType;
+                $target_file_upload = $target_dir_upload . $newFileName . '.' . $imageFileType;;
+                $cnt++;
+            }
+            if (move_uploaded_file($file["tmp_name"], $target_file_upload)) {
+                // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+                return $target_file;
+            } else {
+                return "Đã xảy ra lỗi khi tải lên hình ảnh.";
+            }
         } else {
-            return "Đã xảy ra lỗi khi tải lên hình ảnh.";
+            if (move_uploaded_file($file["tmp_name"], $target_file_upload)) {
+                // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+                return $target_file;
+            } else {
+                return "Đã xảy ra lỗi khi tải lên hình ảnh.";
+            }
         }
+        // Upload tệp hình ảnh vào thư mục "uploads"
+
     }
 }
 function validateProduct($product_name, $product_code, $price, $shortDescription, $description, $brand, $cat_id)
 {
-    $url_back = " <a href='../controller/index.php?m=products&a=products'>Trở lại</a>";
+    global $url_back;
     $patternProductCode = "/^SP[A-Z0-9]{1,8}$/";
     $patternPrice = "/^\d{1,12}(\.\d{0})?$/";
 
@@ -146,12 +172,111 @@ function validateProduct($product_name, $product_code, $price, $shortDescription
         echo "Tên thương hiệu quá dài. Vui lòng nhập tên thương hiệu dưới 50 ký tự." . $url_back;
         die();
     }
-    if(!preg_match($patternPrice,$price)){
+    if (!preg_match($patternPrice, $price)) {
         echo "Vui lòng nhập số tiền chính xác" . $url_back;
         die();
     }
-    if (countWordsCustom($shortDescription)>150) {
-            echo "Mô tả ngắn quá dài. Vui lòng nhập mô tả ngắn dưới 150 từ.". $url_back;
-            die();
-        }
+    if (countWordsCustom($shortDescription) > 150) {
+        echo "Mô tả ngắn quá dài. Vui lòng nhập mô tả ngắn dưới 150 từ." . $url_back;
+        die();
+    }
+}
+function isValidPassword($password)
+{
+    // Biểu thức chính qui kiểm tra mật khẩu phải có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 số, và có từ 8 đến 30 ký tự
+    $pattern = '/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z])(?=.*[0-9]).{8,30}$/';
+
+    // Sử dụng hàm preg_match để kiểm tra
+    if (preg_match($pattern, $password)) {
+        return true; // Mật khẩu hợp lệ
+    } else {
+        return false; // Mật khẩu không hợp lệ
+    }
+}
+function isValidDate($date)
+{
+    // Chuyển đổi chuỗi ngày thành đối tượng DateTime
+    $inputDate = new DateTime($date);
+
+    // Tính ngày hiện tại
+    $currentDate = new DateTime();
+
+    // Tính tuổi bằng cách tính hiệu giữa năm nhập vào và năm hiện tại
+    $age = $currentDate->diff($inputDate)->y;
+
+    // Kiểm tra nếu tuổi nhỏ hơn 10 hoặc lớn hơn 150 thì trả về false
+    if ($age < 10 || $age > 150) {
+        return false; // Ngày không hợp lệ
+    } else {
+        return true; // Ngày hợp lệ
+    }
+}
+
+function isValidEmail($email)
+{
+    // Biểu thức chính qui để kiểm tra địa chỉ email
+    $pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
+    // Sử dụng hàm preg_match để kiểm tra
+    if (preg_match($pattern, $email)) {
+        return true; // Email hợp lệ
+    } else {
+        return false; // Email không hợp lệ
+    }
+}
+function isValidFullName($fullName)
+{
+    // Biểu thức chính qui kiểm tra tên đầy đủ chỉ chứa chữ cái và khoảng trắng
+    $pattern = '/^[a-zA-Z ]+$/';
+
+    // Sử dụng hàm preg_match để kiểm tra
+    if (preg_match($pattern, $fullName)) {
+        return true; // Tên đầy đủ hợp lệ
+    } else {
+        return false; // Tên đầy đủ không hợp lệ
+    }
+}
+function validateUser($username, $password, $fullname, $email, $birthday, $sex)
+{
+    global $url_back;
+    $patternUsername = '/^[a-zA-Z0-9_]{4,16}$/';
+    if (empty($username) || empty($password) || empty($email) || empty($fullname) || empty($birthday) || empty($sex)) {
+        echo "Vui lòng nhập đầy đủ thông tin." . $url_back;
+        die();
+    }
+    if (!preg_match($patternUsername, $username)) {
+        echo "Username phải gồm chữ hoa, chữ thường, dấu gạch chân và có độ dài từ 4 đến 20 kí tự" . $url_back;
+        die();
+    }
+    if (!isValidPassword($password)) {
+        echo "Mật phải có ít nhất 1 chữ hoa, số, kí tự đặc biệt dấu gạch chân và có độ dài từ 8 đến 30 kí tự" . $url_back;
+        die();
+    }
+    if (!isValidDate($birthday)) {
+        echo "Ngày sinh không hợp lệ" . $url_back;
+        die();
+    }
+    if (!isValidEmail($email)) {
+        echo "Email không hợp lệ" . $url_back;
+        die();
+    }
+    if (!isValidFullName($fullname)) {
+        echo "Full name không hợp lệ" . $url_back;
+        die();
+    }
+}
+function paging($mysqli, $limit, $current_page, $tb_name)
+{
+    // Tính vị trí bắt đầu của dữ liệu trong câu truy vấn
+    $start = ($current_page - 1) * $limit;
+    // Truy vấn dữ liệu từ cơ sở dữ liệu
+    $sql = "SELECT * FROM $tb_name LIMIT $start, $limit";
+    $result = mysqli_query($mysqli, $sql);
+    return $result;
+}
+function toalPagesPaging($mysqli, $limit, $tb_name)
+{
+    $total_rows = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM $tb_name"));
+    // Tính tổng số trang
+    return ceil($total_rows / $limit);
 }
