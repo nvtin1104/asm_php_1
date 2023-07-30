@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 include('./database/function.php');
 $edit_id = (int)$_SESSION['edit_id'];
-$product_row = getRecord1Where($mysqli, 'products','product_id',$edit_id);
+$product_row = getRecord1Where($mysqli, 'products', 'product_id', $edit_id);
 
 // Xử lý dữ liệu gửi từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_product"])) {
@@ -16,30 +16,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_product"])) {
     $shortDescription = $_POST["short-description"];
     $cat_id = $_POST["cat_id"];
 
-   // Xử lý tệp hình ảnh
-    $target_dir = addslashes("./uploads/");
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $target_dir_upload = addslashes("../uploads/");
-    $target_file_upload = $target_dir_upload . basename($_FILES["image"]["name"]);
-
+    validateProduct($product_name, $product_code, $price, $shortDescription, $description, $brand, $cat_id);
     // Kiểm tra kiểu tệp hình ảnh
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        echo "Chỉ chấp nhận các tệp JPG, JPEG, PNG.";
-    } else {
-        // Upload tệp hình ảnh vào thư mục "uploads"
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file_upload)) {
-            // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+    if (!empty($_FILES['image']['name'])) {
+        $result = uploadImage($_FILES["image"],);
+        if (isset($result)) {
             $sql = "UPDATE products 
-                    SET product_name = '$product_name', 
-                        product_code = '$product_code', 
-                        brand = '$brand', 
-                        price = '$price', 
-                        description = '$description', 
-                        short_description = '$shortDescription', 
-                        image = '$target_file_upload', 
-                        cat_id = '$cat_id'
-                    WHERE product_id = '$edit_id'";
+            SET product_name = '$product_name', 
+                product_code = '$product_code', 
+                brand = '$brand', 
+                price = '$price', 
+                description = '$description', 
+                short_description = '$shortDescription', 
+                image = '$result', 
+                cat_id = '$cat_id'
+            WHERE product_id = '$edit_id'";
             if (mysqli_query($mysqli, $sql)) {
                 echo "Sản phẩm đã được update thành công.";
                 header("Refresh: 2; url=./index.php?m=products&a=products");
@@ -47,8 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_product"])) {
                 echo "Lỗi: " . $sql . "<br>" . mysqli_error($mysqli);
             }
         } else {
-            echo "Đã xảy ra lỗi khi tải lên hình ảnh.";
+            echo $result;
         }
+    } else {
+        echo "Vui lòng chon 1 file" . $url_back;
     }
 }
 ?>

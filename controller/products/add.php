@@ -1,5 +1,6 @@
 <?php
 // Xử lý dữ liệu gửi từ form
+include('./database/function.php');
 if (isset($_POST["add_product"])) {
     $product_name = addslashes($_POST["product_name"]);
     $product_code = $_POST["product_code"];
@@ -7,36 +8,24 @@ if (isset($_POST["add_product"])) {
     $description = addslashes($_POST["description"]);
     $brand = addslashes($_POST["brand"]);
     $shortDescription = addslashes($_POST["short-description"]);
-    $cat_id = $_POST["cat_id"];    
-    $url_back =" <a href='../controller/index.php?m=products&a=products'>Trở lại</a>";
-    if (empty($description) || empty($brand) || empty($shortDescription) || empty($cat_id) || empty($product_code) || empty($product_name) || empty($price) || empty($_FILES['image']['name'])) {
-        // Nếu có bất kỳ trường dữ liệu nào bị rỗng, xử lý thông báo lỗi hoặc yêu cầu người dùng nhập đủ thông tin.
-        echo "Vui lòng nhập đầy đủ thông tin sản phẩm." . $url_back;
-        die();
-    }
-    $target_dir = addslashes("./uploads/");
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $target_dir_upload = addslashes("../uploads/");
-    $target_file_upload = $target_dir_upload . basename($_FILES["image"]["name"]);
-
-    // Kiểm tra kiểu tệp hình ảnh
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        echo "Chỉ chấp nhận các tệp JPG, JPEG, PNG.";
-    } else {
-        // Upload tệp hình ảnh vào thư mục "uploads"
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file_upload)) {
-            // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+    $cat_id = $_POST["cat_id"];
+    $url_back = " <a href='../controller/index.php?m=products&a=products'>Trở lại</a>";
+    validateProduct($product_name, $product_code, $price, $shortDescription, $description, $brand, $cat_id);
+    if (!empty($_FILES['image']['name'])) {
+        $result = uploadImage($_FILES["image"],);
+        if (isset($result)) {
             $sql = "INSERT INTO products (product_name, product_code, brand, price, description,short_description, image, cat_id)
-             VALUES ('$product_name','$product_code','$brand','$price', '$description','$shortDescription', '$target_file','$cat_id')";
+             VALUES ('$product_name','$product_code','$brand','$price', '$description','$shortDescription', '$result','$cat_id')";
             if (mysqli_query($mysqli, $sql)) {
                 echo "Sản phẩm đã được tải lên thành công.";
             } else {
                 echo "Lỗi: " . $sql . "<br>" . mysqli_error($mysqli);
             }
         } else {
-            echo "Đã xảy ra lỗi khi tải lên hình ảnh.";
+            echo $result;
         }
+    } else {
+        echo "Vui lòng chon 1 file" . $url_back;
     }
 }
 ?>

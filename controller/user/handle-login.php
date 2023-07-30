@@ -35,7 +35,7 @@ if (isset($_POST['login'])) {
         if ($row['role'] == 2) {
             header("Refresh: 2; url =../index.php");
         } elseif ($row['role'] == 1) {
-            header("Refresh: 2; url=../index.php");
+            header("Refresh: 2; url=../../index.php");
         } else {
             echo "Error";
         }

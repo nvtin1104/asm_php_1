@@ -1,15 +1,9 @@
 <?php
+include_once('./database/function.php');
 if (isset($_GET['id'])) {
     $cat_id = $_GET['id'];
-    $sql = "DELETE FROM cat_product WHERE cat_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $cat_id);
-    if (
-        $stmt->execute()
-    ) {
-        echo "success";
-        header('Refresh: 2; url=./index.php?m=category&a=cat');
-    }
+
+    delete1Where($mysqli,'cat_product','cat_id',$cat_id);
 }
 ?>
 
