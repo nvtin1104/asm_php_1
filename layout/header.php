@@ -78,8 +78,8 @@
         </header>
         <div class="search-modal-bg">
             <div class="search-modal">
-                <form action="./controller/search.php" method="post">
-                    <input type="text" name="search" placeholder="Search">
+                <form action="index.php?m=pages&a=search" method="post">
+                    <input type="text" name="keyword" placeholder="Search">
                     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
@@ -106,7 +106,6 @@
     function toggleModal(event) {
         // Ngăn chặn sự kiện lan ra các phần tử cha
         event.stopPropagation();
-
         searchModal.classList.toggle('active-modal');
     }
 

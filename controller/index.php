@@ -5,6 +5,8 @@
 define("IN_SITE", true);
 session_start();
 include_once('./database/connect.php');
+include_once('./database/function.php');
+
 
 // Lấy module và action trên URL
 $action = isset($_GET['a']) ? $_GET['a'] : '';

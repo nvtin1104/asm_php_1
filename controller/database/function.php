@@ -37,21 +37,11 @@ function getRecord1Where($mysqli, $tb_name, $where, $where_id)
     $sql = "SELECT * FROM " . $tb_name . " WHERE " . $where . " = '" . $mysqli->real_escape_string($where_id) . "'";
 
     // Thực thi truy vấn
-    $result = $mysqli->query($sql);
-
-    // Kiểm tra kết quả truy vấn
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        // Giải phóng bộ nhớ
-        $result->close();
-
-        return $row; // Trả về dữ liệu lấy được
-    } else {
-        // Xảy ra lỗi khi thực hiện truy vấn
-        echo "Lỗi khi thực hiện truy vấn: " . $mysqli->error;
-        return null; // Trả về null nếu có lỗi
-    }
+    $result = mysqli_query($mysqli, $sql);
+    return $result;
 }
+
+
 function countWordsCustom($string)
 {
     $words = explode(" ", trim($string));
@@ -67,18 +57,7 @@ function getRecord($mysqli, $tb_name)
     // Kiểm tra kết quả truy vấn SELECT
     if ($result) {
         // Lấy dữ liệu từ kết quả truy vấn
-        $data = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $data[] = $row;
-        }
-
-        // Giải phóng bộ nhớ
-        mysqli_free_result($result);
-
-        // Đóng kết nối
-        mysqli_close($mysqli);
-
-        return $data; // Trả về dữ liệu lấy được
+        return $result;
     } else {
         // Xảy ra lỗi khi thực hiện truy vấn
         echo "Lỗi khi thực hiện truy vấn: " . mysqli_error($mysqli);
@@ -91,13 +70,16 @@ function getRecord($mysqli, $tb_name)
 }
 function validateCategory($mysqli, $catname)
 {
-    $url_back = " <a href='../controller/index.php?m=category&a=cat'>Trở lại</a>";
+    global $url_back;
     if (empty($catname)) {
         echo "Vui lòng nhập đầy đủ thông tin." . $url_back;
         die();
     }
     $row_check = getRecord1Where($mysqli, 'cat_product', 'cat_name', $catname);
-    if (!empty($row_check)) {
+    
+    $num_row = mysqli_num_rows($row_check);
+    /** @intelephense-ignore-line */
+    if ($num_row > 0) {
         echo "Tên cat bị trùng." . $url_back;
         die();
     } else {
@@ -279,4 +261,19 @@ function toalPagesPaging($mysqli, $limit, $tb_name)
     $total_rows = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM $tb_name"));
     // Tính tổng số trang
     return ceil($total_rows / $limit);
+}
+function pagingSearch($mysqli, $limit, $current_page, $tb_name, $cl_name, $keyword)
+{
+    // Tính vị trí bắt đầu của dữ liệu trong câu truy vấn
+    $start = ($current_page - 1) * $limit;
+    // Truy vấn dữ liệu từ cơ sở dữ liệu
+    $sql = "SELECT * FROM $tb_name WHERE $cl_name LIKE '%$keyword%' LIMIT $start, $limit";
+    $result = mysqli_query($mysqli, $sql);
+    return $result;
+}
+function toalPagesPagingSearch($mysqli, $limit, $tb_name, $cl_name, $keyword)
+{
+    $total_results = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM $tb_name WHERE $cl_name LIKE '%$keyword%'"));
+    // Tính tổng số trang
+    return ceil($total_results / $limit);
 }

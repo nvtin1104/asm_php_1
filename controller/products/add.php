@@ -1,6 +1,4 @@
 <?php
-// Xử lý dữ liệu gửi từ form
-include('./database/function.php');
 if (isset($_POST["add_product"])) {
     $product_name = addslashes($_POST["product_name"]);
     $product_code = $_POST["product_code"];

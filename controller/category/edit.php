@@ -1,11 +1,7 @@
 <?
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-$cat_id = (int)$_SESSION['edit_id'];
-include('./database/function.php');
 if (isset($_POST['edit-cat'])) {
     // Giả sử cat_id được gửi từ form khi submit.
+    $cat_id = $_GET['id'];
     $catname = $_POST['cat_name'];
     if (validateCategory($mysqli, $catname)) {
         // Bước 1: Chuẩn bị truy vấn UPDATE sử dụng prepared statement
@@ -19,7 +15,6 @@ if (isset($_POST['edit-cat'])) {
             if ($stmt->execute()) {
                 // Truy vấn UPDATE đã được thực hiện thành công
                 echo "Dữ liệu đã được chỉnh sửa thành công.";
-                unset($_SESSION['cat_edit']);
             } else {
                 // Xảy ra lỗi khi thực hiện truy vấn
                 echo "Lỗi khi thực hiện truy vấn: " . $stmt->error;

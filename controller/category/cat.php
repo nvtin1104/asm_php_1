@@ -1,5 +1,4 @@
 <?php
-include('./database/function.php');
 if (isset($_POST['add-cat'])) {
     $catname = $_POST['cat-name'];
     if(validateCategory($mysqli, $catname)){
@@ -62,6 +61,7 @@ if (isset($_POST['add-cat'])) {
                         echo "<td>";
                         echo "<a href='../controller/index.php?m=category&a=delete&id=" . $category["cat_id"] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>Xóa</a>";
                         echo '<a href="../controller/index.php?m=category&a=edit&id=' . $category['cat_id'] . '" class="btn btn-info btn-sm ml-2 m-1">Chỉnh sửa</a>';
+                        echo '<a href="../controller/index.php?m=category&a=cat-product&id=' . $category['cat_id'] . '" class="btn btn-primary btn-sm ml-2 m-1">Xem</a>';
                         echo "</td>";
                         echo "</tr>";
                     }

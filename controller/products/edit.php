@@ -2,10 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include('./database/function.php');
 $edit_id = (int)$_SESSION['edit_id'];
-$product_row = getRecord1Where($mysqli, 'products', 'product_id', $edit_id);
-
+$result = getRecord1Where($mysqli, 'products', 'product_id', $edit_id);
+$product_row = mysqli_fetch_assoc($result);
 // Xử lý dữ liệu gửi từ form
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_product"])) {
     $product_name = $_POST["product_name"];

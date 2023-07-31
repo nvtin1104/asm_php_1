@@ -18,7 +18,8 @@ $birthday = $_POST['txtBirthday'];
 $sex = $_POST['txtSex'];
 // Kiểm tra tên đăng nhập này đã có người dùng chưa
 $result = getRecord1Where($mysqli, 'users', 'username', $username);
-if (!empty($result)) {
+$row = mysqli_num_rows($result);
+if ($row > 0) {
     echo "Tên đăng nhập này đã có người dùng. Vui lòng chọn tên đăng nhập khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
     exit;
 }
@@ -41,7 +42,7 @@ $stmt->close();
 $stmt = $mysqli->prepare("INSERT INTO users (username, password, email, fullname, birthday, sex) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssssss", $username, $password, $email, $fullname, $birthday, $sex);
 if ($stmt->execute()) {
-    echo "Quá trình đăng ký thành công. <a href='../index.php'>Về trang chủ</a>";
+    echo "Quá trình đăng ký thành công. <a href='./index.php'>Về trang chủ</a>";
 } else {
     echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='../login.php'>Thử lại</a>";
 }
