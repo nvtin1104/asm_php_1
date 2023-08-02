@@ -1,52 +1,41 @@
 <?php
 // Nếu không phải là sự kiện đăng ký thì không xử lý
-if (!isset($_POST['txtUsername'])) {
-    die('');
-}
-// Nhúng file kết nối với database
-include('./database/connect.php');
-// Khai báo utf-8 để hiển thị được tiếng việt
-header('Content-Type: text/html; charset=UTF-8');
+if (isset($_POST['edit-profile'])) {
 
-// Lấy dữ liệu từ file dangky.php
-$username = $_POST['txtUsername'];
-$password = $_POST['txtPassword'];
-$email = $_POST['txtEmail'];
-$fullname = $_POST['txtFullname'];
-$birthday = $_POST['txtBirthday'];
-$sex = $_POST['txtSex'];
-// Kiểm tra tên đăng nhập này đã có người dùng chưa
-$result = getRecord1Where($mysqli, 'users', 'username', $username);
-$row = mysqli_num_rows($result);
-if ($row > 0) {
-    echo "Tên đăng nhập này đã có người dùng. Vui lòng chọn tên đăng nhập khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
-    exit;
-}
+    $user_id = $_GET['id'];
+    $password = $_POST['txtPassword'];
+    $email = $_POST['txtEmail'];
+    $fullname = $_POST['txtFullname'];
+    $birthday = $_POST['txtBirthday'];
+    $sex = $_POST['txtSex'];
+    // Kiểm tra tên đăng nhập này đã có người dùng chưa
+    $result = getRecord1Where($mysqli, 'users', 'user_id', $user_id);
+    $row = mysqli_fetch_assoc($result);
+    $username = $row['username'];
+    validateUser($username, $password, $fullname, $email, $birthday, $sex);
+    $password = md5($password);
+    // Kiểm tra email đã có người dùng chưa
+    $stmt = $mysqli->prepare("SELECT email FROM users WHERE email=?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        exit;
+    }
+    $stmt->close();
 
-
-validateUser($username, $password, $fullname, $email, $birthday, $sex);
-$password = md5($password);
-// Kiểm tra email đã có người dùng chưa
-$stmt = $mysqli->prepare("SELECT email FROM users WHERE email=?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-if ($stmt->num_rows > 0) {
-    echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
-    exit;
+    // Sử dụng prepared statements để thêm thông tin thành viên vào bảng
+    $stmt = $mysqli->prepare("UPDATE users SET username = ?, password=?, email=?, fullname=?, birthday=?, sex=? WHERE user_id=?");
+    $stmt->bind_param("ssssssi", $username, $password, $email, $fullname, $birthday, $sex, $user_id);
+    if ($stmt->execute()) {
+        echo "Lưu tài khoản thành công. <a href='./index.php'>Về trang chủ</a>";
+    } else {
+        echo "Có lỗi xảy ra trong quá trình chỉnh sửa";
+    }
+    $stmt->close();
+    $mysqli->close();
 }
-$stmt->close();
-
-// Sử dụng prepared statements để thêm thông tin thành viên vào bảng
-$stmt = $mysqli->prepare("INSERT INTO users (username, password, email, fullname, birthday, sex) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssss", $username, $password, $email, $fullname, $birthday, $sex);
-if ($stmt->execute()) {
-    echo "Quá trình đăng ký thành công. <a href='../index.php'>Về trang chủ</a>";
-} else {
-    echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='../login.php'>Thử lại</a>";
-}
-$stmt->close();
-$mysqli->close();
 ?>
 
 <!DOCTYPE html>
@@ -62,13 +51,6 @@ $mysqli->close();
 
 <body>
     <form action="" method="post" class="needs-validation" novalidate>
-        <div class="form-group">
-            <label for="txtUsername">User name</label>
-            <input type="text" class="form-control" name="txtUsername" id="txtUsername" required>
-            <div class="invalid-feedback">
-                Please provide a valid username.
-            </div>
-        </div>
         <div class="form-group">
             <label for="txtPassword">Password</label>
             <input type="password" class="form-control" name="txtPassword" id="txtPassword" required>
@@ -109,7 +91,7 @@ $mysqli->close();
                 Please select your sex.
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" name="edit-profile" class="btn btn-primary">Register</button>
     </form>
 
 </body>

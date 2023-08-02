@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,23 +35,24 @@
                 <label for="check" class="close-menu"><i class="fa-solid fa-xmark"></i></label>
                 <div class="btn-action d-flex">
                     <div class="login-action">
-                        <?
+                        <?php
                         session_start();
                         if (isset($_SESSION['isLogined']) && $_SESSION['isLogined'] == true) {
                             $serializedUser = $_SESSION['current_user'];
                             $user = unserialize($serializedUser);
                             echo '<div class="login-control">
-                        <a href="./frontend/accountManagement.php"><i class="fa-solid fa-user-large"></i></a>
-                        <div class="login-control__content">
-                            <a class="text-login" href="./pages/accountManagement.php">' . $user->username . '</a>
-                            <form action="./controller/logout.php">
-                                <input type="submit" value="Log Out" name="log-out">
-                            </form>
-                        </div>
-                    </div>';
-                        } else echo '<a  href="./index.php?m=pages&a=login"><span class="text-login">Login </span></a>';
+                <a href="./frontend/accountManagement.php"><i class="fa-solid fa-user-large"></i></a>
+                <div class="login-control__content">
+                    <a class="text-login" href="./pages/accountManagement.php">' . $user->username . '</a>
+                    <form action="./controller/logout.php">
+                        <input type="submit" value="Log Out" name="log-out">
+                    </form>
+                </div>
+            </div>';
+                        } else {
+                            echo '<a  href="./pages/login.php"><span class="text-login">Login </span></a>';
+                        }
                         ?>
-
                     </div>
                     <div class="shop-action d-flex">
                         <div class="shop-action__icon action-search"><i class="fa-solid fa-magnifying-glass"></i> </div>
@@ -65,11 +67,8 @@
                                 <?
                                 require_once('./inc/shopping-cart.php');
                                 ?>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </nav>
