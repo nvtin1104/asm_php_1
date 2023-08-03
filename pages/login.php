@@ -28,7 +28,7 @@ require('../inc/handle-register.php');
                 <div id="img">Icon</div>
                 <div id="desc"><? global $mess ;echo $mess;?></div>
             </div>
-            <a class="btn-back" href='javascript: history.go(-1)'><i class="fa-solid fa-caret-left"></i><span>Back</span></a>
+            <a class="btn-back" href='../index.php'><i class="fa-solid fa-home"></i><span>Home</span></a>
             <div class="row login-bg">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="login-content">

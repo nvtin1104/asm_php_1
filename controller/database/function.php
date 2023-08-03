@@ -256,6 +256,16 @@ function paging($mysqli, $limit, $current_page, $tb_name)
     $result = mysqli_query($mysqli, $sql);
     return $result;
 }
+function pagingWhere($mysqli, $limit, $current_page, $tb_name, $whereClause)
+{
+    // Tính vị trí bắt đầu của dữ liệu trong câu truy vấn
+    $start = ($current_page - 1) * $limit;
+    // Truy vấn dữ liệu từ cơ sở dữ liệu
+    $sql = "SELECT * FROM $tb_name  $whereClause LIMIT $start, $limit";
+    $result = mysqli_query($mysqli, $sql);
+    return $result;
+}
+
 function toalPagesPaging($mysqli, $limit, $tb_name)
 {
     $total_rows = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM $tb_name"));

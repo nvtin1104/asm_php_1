@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +57,7 @@
                         <div class="shop-action__icon action-search"><i class="fa-solid fa-magnifying-glass"></i> </div>
                         <div class="shop-action__icon"><i class="fa-solid fa-heart"></i></div>
                         <div class="shop-action__icon shopping-cart--icon">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <a href="./index.php?m=pages&a=cart"> <i class="fa-solid fa-cart-shopping"></a></i>
                             <div class="shoping-cart__hover d-flex flex-column ">
                                 <div class="shopping-cart__title d-flex align-items-center">
                                     <p>Cart</p>

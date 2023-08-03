@@ -223,7 +223,7 @@ main {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 30px;
-    min-width: 600px;
+    min-width: 300px;
     right: 0;
     transition: .5s ease-in-out;
 }
@@ -250,91 +250,29 @@ main {
     display: block;
     border-bottom: 1px solid var(--text-color-1);
 }
-
-.shopping-cart--table {
-    display: block;
-    border-collapse: collapse;
-    padding: 16px 8px;
-}
-
-.shopping-cart--table th,
-td {
-    display: block;
-}
-
-.shopping-cart--table tr {
-    border-bottom: 1px s;
+.cart-item {
+    border-bottom: 1px solid var(--text-color-2);
     padding: 8px 0;
+    margin: 10px;
+  }
+
+  .item-image {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+
+  .item-details {
     display: flex;
-    border-bottom: 1px solid var(--text-color-1);
-}
-
-.shopping-cart--table .stt {
-    width: 50px;
-}
-
-.shopping-cart--table .name {
-    width: 200px;
-}
-
-.shopping-cart--table .img,
-.quantity,
-.action {
-    width: 120px;
-}
-
-.shopping-cart--table .img,
-.quantity,
-.action,
-.stt,
-.name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.tb-row .img img {
-    width: 80px;
-    height: 80px;
-}
-
-.shopping-cart__bottom {
-    padding: 16px 8px;
-}
-
-.shopping-cart--acction a {
-    padding: 8px 16px;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-.total-title {
-    font-size: 18px;
-    font-weight: 600;
-    padding-right: 8px;
-}
-
-.go-to-payment {
-    background-color: var(--bg-color-2);
-    color: var(--text-color-3);
-}
-
-.go-to-cart {
-    background-color: #fff;
-    color: var(--text-color-1);
-    margin-right: 16px !important;
-}
-
-/* if no  */
-.shopping-cart__nocontent {
-    padding: 32px;
-}
-
-.go-to-shop {
-    margin-left: 16px !important;
-    border-bottom: 1px solid var(--text-color-1);
-}
-
+    flex-direction: column;
+  }
+  .item-details span {
+    text-align: right;
+  }
+  .item-name {
+    font-weight: bold;
+  }
 .search-modal-bg {
     visibility: hidden;
     opacity: 0;

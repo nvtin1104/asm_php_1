@@ -2,8 +2,8 @@
 
 if (isset($_POST['add-to-cart'])) {
     session_start();
-    include('./database/connect.php');
-    include('../libs/function/user.php');
+    include('../database/connect.php');
+    include('../../libs/function/user.php');
     $serializedUser = $_SESSION['current_user'];
     $user = unserialize($serializedUser);
     $user_id = $user->user_id;

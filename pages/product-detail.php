@@ -82,7 +82,7 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="col-lg-7">
                         <div class="product-detail__content">
-                            <form action="./controller/cart.php" method="post">
+                            <form action="./controller/cart/cart.php" method="post">
                                 <h3 class="product-name">
                                     <? echo $productName; ?>
                                 </h3>
