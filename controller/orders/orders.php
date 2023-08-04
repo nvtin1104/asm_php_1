@@ -53,7 +53,7 @@
                             echo '<a href="./index.php?m=mail&a=sendmail&id='. $row["user_id"]. '&orderid='. $row['order_id'].'" class="btn btn-success">Send</a>'; // Edit button with a link to edit_product.php
                         }
                         echo ' ';
-                        if ($row["status"] != 0 && $row["status"] != 5) {
+                        if ($row["status"] != 0 && $row["status"] != 5 && $row["status"] !=4) {
                             echo '<a href="./index.php?m=orders&a=action&d=cancel&id=' . $row["order_id"] . '" class="btn btn-danger">Cancel</a>'; // Edit button with a link to edit_product.php
                         }
                         echo "</td>";
