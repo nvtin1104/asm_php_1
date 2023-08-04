@@ -27,8 +27,7 @@ include('./controller/database/function.php');
         // $sql = "SELECT * FROM cart_items WHERE user_id ='$user_id'";
         $sql = "SELECT cart_items.cart_id, cart_items.product_id, cart_items.quantity, cart_items.total_price,products.price, products.product_name,products.image
                                 FROM cart_items
-                                INNER JOIN products ON cart_items.product_id = products.product_id;
-                                ";
+                                INNER JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.user_id = $user_id;";
         $result = mysqli_query($mysqli, $sql);
         $sql_total = "SELECT SUM(total_price) AS total_price FROM cart_items";
         $result_total = $mysqli->query($sql_total);
@@ -98,36 +97,6 @@ include('./controller/database/function.php');
         <div id="img"></div>
         <div id="desc"></div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Xử lý khi nhấp vào nút "Gửi"
-            $("#btn-submit").click(function() {
-                // Lấy tất cả các cart_id từ các checkbox được chọn
-                var cartIds = [];
-                $("input[name='ids[]']:checked").each(function() {
-                    cartIds.push($(this).val());
-                });
-
-                // Gửi cartIds lên máy chủ bằng Ajax
-                $.ajax({
-                    url: "./pages/payment.php",
-                    method: "post",
-                    data: {
-                        cartIds: cartIds
-                    },
-                    success: function(response) {
-                        // Xử lý phản hồi từ máy chủ (nếu cần)
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Xử lý lỗi (nếu có)
-                        console.error(error);
-                    }
-                });
-            });
-        });
-    </script>
 
     <script src="./public/js/cart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -44,6 +44,7 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASM PHP</title>
     <link rel="stylesheet" href="./public/css/reponsive.css">
+    <link rel="stylesheet" href="./public/css/toast.css">
     <link rel="stylesheet" href="./public/css/product_detail.css">
     <link rel="stylesheet" href="./libs/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -53,6 +54,11 @@ if (isset($_GET['id'])) {
 
 <body>
     <main>
+        <div id="toast">
+            <div id="img">Icon</div>
+            <div id="desc"><? global $mess;
+                            echo $mess; ?></div>
+        </div>
         <div class="breadcrumb-option">
             <div class="container m-auto">
                 <div class="row">
@@ -82,7 +88,7 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="col-lg-7">
                         <div class="product-detail__content">
-                            <form action="./controller/cart/cart.php" method="post">
+                            <form id="cartForm" action="" method="post">
                                 <h3 class="product-name">
                                     <? echo $productName; ?>
                                 </h3>
@@ -166,6 +172,60 @@ if (isset($_GET['id'])) {
 </body>
 <script src="./libs/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>
+    function launch_toast(icon, message) {
+        var x = document.getElementById("toast")
+        x.className = "show";
+        const imgDiv = document.getElementById("img");
+        imgDiv.innerHTML = icon; // Thay đổi thành nội dung mới
+        // Để thay đổi nội dung của div có id="desc"
+        const descDiv = document.getElementById("desc");
+        descDiv.innerText = message;
+        setTimeout(function() {
+            x.className = x.className.replace("show", "");
+            window.location.reload();
+        }, 2000);
+
+    }
+
+    function submitForm() {
+        var form = document.getElementById("cartForm");
+        var formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "./controller/cart/cart.php", true);
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === 'success') {
+                        let icon = response.icon;
+                        let message = response.message;
+                        launch_toast(icon, message);
+                        // Perform any additional actions if the deletion was successful
+                        // For example, you may want to reload the cart or update the UI.
+                    } else if (response.status === 'error') {
+                        let icon = response.icon;
+                        let message = response.message;
+                        launch_toast(icon, message);
+                        // Handle the error appropriately, if needed
+                    }
+                } else {
+                    // Handle error response (if needed)
+                    console.error("Error:", xhr.status);
+                }
+            }
+        };
+
+        xhr.send(formData);
+    }
+
+    // Add event listener to the form submission
+    document.getElementById("cartForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        submitForm(); // Call the function to handle form submission via Ajax
+    });
     // control conut quantity
     let minus = document.querySelector('.count-quantity-minus');
     let plus = document.querySelector('.count-quantity-plus');

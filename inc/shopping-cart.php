@@ -6,7 +6,7 @@ if (isset($_SESSION['isLogined']) && $_SESSION['isLogined'] == true) {
     // $sql = "SELECT * FROM cart_items WHERE user_id ='$user_id'";
     $sql = "SELECT cart_items.quantity, cart_items.total_price, products.product_name,products.image
             FROM cart_items
-            INNER JOIN products ON cart_items.product_id = products.product_id;";
+            INNER JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.user_id = $user_id;";
     $result = mysqli_query($mysqli, $sql);
     $sql_total = "SELECT SUM(total_price) AS total_price FROM cart_items";
     $result_total = $mysqli->query($sql_total);

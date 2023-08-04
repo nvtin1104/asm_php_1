@@ -1,6 +1,6 @@
 <?
 
-if (isset($_POST['add-to-cart'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_start();
     include('../database/connect.php');
     include('../../libs/function/user.php');
@@ -8,7 +8,11 @@ if (isset($_POST['add-to-cart'])) {
     $user = unserialize($serializedUser);
     $user_id = $user->user_id;
     $productId = $_POST['product_id'];
-    $quantity = $_POST['product-quantity'];
+    if (isset($_POST['product-quantity'])) {
+        $quantity = $_POST['product-quantity'];
+    } else {
+        $quantity = 1;
+    }
     $check_price = mysqli_query($mysqli, "SELECT price FROM products WHERE product_id='$productId'");
     $rowPrice = mysqli_fetch_array($check_price);
     $productPrice = $rowPrice['price'];
@@ -23,8 +27,7 @@ if (isset($_POST['add-to-cart'])) {
         // Cập nhật số lượng sản phẩm trong giỏ hàng
         $update_query = "UPDATE cart_items SET quantity = '$new_quantity', total_price = '$new_total' WHERE product_id = '$productId' AND user_id = '$user_id'";
         if (mysqli_query($mysqli, $update_query)) {
-            echo "Success";
-            header("Refresh: 2; url=" . $_SERVER['HTTP_REFERER']);
+            echo json_encode(array('status' => 'success', 'message' => 'Thêm vào giỏ thành công!', 'icon' => '<i class="fa-solid success-color fa-check"></i>'));
             exit;
         } else {
             echo "Failed to update quantity.";
@@ -34,9 +37,7 @@ if (isset($_POST['add-to-cart'])) {
         $totalPrice = $productPrice * $quantity;
         $insert_query = "INSERT INTO cart_items (product_id, user_id, quantity, total_price) VALUES ('$productId', '$user_id', '$quantity', '$totalPrice')";
         if (mysqli_query($mysqli, $insert_query)) {
-            echo "Success";
-            header("Refresh: 2; url=" . $_SERVER['HTTP_REFERER']);
-            exit;
+            echo json_encode(array('status' => 'success', 'message' => 'Thêm vào giỏ thành công!', 'icon' => '<i class="fa-solid success-color fa-check"></i>'));
         } else {
             echo "Failed to insert item." . mysqli_error($mysqli);
         }
