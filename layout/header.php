@@ -42,7 +42,7 @@
                             echo '<div class="login-control">
                 <a href="./frontend/accountManagement.php"><i class="fa-solid fa-user-large"></i></a>
                 <div class="login-control__content">
-                    <a class="text-login" href="./pages/accountManagement.php">' . $user->username . '</a>
+                    <a class="text-login" href="./pages/user/user-dashboard.php">' . $user->username . '</a>
                     <form action="./controller/logout.php">
                         <input type="submit" value="Log Out" name="log-out">
                     </form>

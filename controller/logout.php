@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_GET['log-out'])) {
-    unset($_SESSION['username']); 
+    unset($_SESSION['current_user']); 
     unset($_SESSION['user_id']); // Xóa session đăng nhập   
     // Xóa session đăng nhập   
     $_SESSION['isLogined'] = false;

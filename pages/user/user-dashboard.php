@@ -2,25 +2,15 @@
 <html lang="en">
 <?php
 // Định nghĩa một hằng số bảo vệ project
-define("IN_SITE", true);
 session_start();
-include_once('./database/connect.php');
-include_once('./database/function.php');
-
 
 // Lấy module và action trên URL
-$action = isset($_GET['a']) ? $_GET['a'] : '';
-$module = isset($_GET['m']) ? $_GET['m'] : '';
-if (empty($module) || empty($action)) {
-    $module = 'user';
-    $action = 'users';
-}
-if ($action == 'edit') {
-    $edit_id = isset($_GET['id']) ? $_GET['id'] : '';
-    $_SESSION['edit_id'] = $edit_id;
+$pages = isset($_GET['p']) ? $_GET['p'] : '';
+if (empty($pages)) {
+    $pages = 'user-infor';
 }
 // Tạo đường dẫn và lưu vào biến $path
-$path =  './' . $module . '/' . $action . '.php';
+$path =  './' . $pages . '.php';
 // session_start();
 // if (!isset($_SESSION['currentUser']) || $_SESSION['currentUser']->role !== '1') {
 //     header('Location: login.php');
@@ -36,10 +26,41 @@ $path =  './' . $module . '/' . $action . '.php';
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="../public/css/admin.css">
+    <style>
+        .navbar {
+            margin-bottom: 50px;
+
+        }
+
+        .navbar-nav {
+            width: 100%;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .category {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category button {
+            margin-left: 30px;
+        }
+
+        .user__dashboard {
+            padding: 64px 0;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container user__dashboard m-auto">
+
         <div class="row">
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
@@ -51,10 +72,13 @@ $path =  './' . $module . '/' . $action . '.php';
                         <ul class="navbar-nav">
                             <div class="flex">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                    <a class="nav-link active" aria-current="page" href="../../index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Logout</a>
+                                    <form action="../../controller/logout.php">
+                                        <input type="submit" value="Log Out" name="log-out">
+                                    </form>
+
                                 </li>
                             </div>
 
@@ -64,17 +88,19 @@ $path =  './' . $module . '/' . $action . '.php';
             </nav>
             <div class="col col-lg-2">
                 <ul class="list-group">
-                    <li class="list-group-item"><a href="../controller/index.php?m=user&a=users">User</a></li>
-                    <li class="list-group-item"><a href="../controller/index.php?m=category&a=cat">Category</a></li>
-                    <li class="list-group-item"><a href="../controller/index.php?m=products&a=products">Products</a></li>
-                    <li class="list-group-item"><a href="../controller/index.php?m=orders&a=orders">Orders</a></li>
-                    <li class="list-group-item">Report</li>
+                    <li class="list-group-item"><a href="./user-dashboard.php?p=user-infor">Account Information</a></li>
+                    <li class="list-group-item"><a href="../controller/index.php?m=category&a=cat">Cart</a></li>
+                    <li class="list-group-item"><a href="./user-dashboard.php?p=orders">Order</a></li>
+                    <li class="list-group-item">Setting</li>
+                    <li class="list-group-item">Logout</li>
                 </ul>
             </div>
             <div class="col col-lg-10">
                 <?
                 if (file_exists($path)) {
-                    include('./database/user.php');
+                    include('../../controller/database/user.php');
+                    include('../../controller/database/connect.php');
+                    include('../../controller/database/function.php');
                     include_once($path);
                 }
                 ?>

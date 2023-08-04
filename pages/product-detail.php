@@ -172,7 +172,7 @@ if (isset($_GET['id'])) {
 </body>
 <script src="./libs/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>
-    function launch_toast(icon, message) {
+    function launch_toast(icon, message, status) {
         var x = document.getElementById("toast")
         x.className = "show";
         const imgDiv = document.getElementById("img");
@@ -182,7 +182,11 @@ if (isset($_GET['id'])) {
         descDiv.innerText = message;
         setTimeout(function() {
             x.className = x.className.replace("show", "");
-            window.location.reload();
+            if (status == "success") {
+                window.location.reload();
+            } else if (status == "error") {
+                window.location.href = "./pages/login.php";
+            }
         }, 2000);
 
     }
@@ -200,15 +204,17 @@ if (isset($_GET['id'])) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.status === 'success') {
+                        let status = response.status;
                         let icon = response.icon;
                         let message = response.message;
-                        launch_toast(icon, message);
+                        launch_toast(icon, message, status);
                         // Perform any additional actions if the deletion was successful
                         // For example, you may want to reload the cart or update the UI.
                     } else if (response.status === 'error') {
+                        let status = response.status;
                         let icon = response.icon;
                         let message = response.message;
-                        launch_toast(icon, message);
+                        launch_toast(icon, message, status);
                         // Handle the error appropriately, if needed
                     }
                 } else {

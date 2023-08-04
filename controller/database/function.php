@@ -76,7 +76,7 @@ function validateCategory($mysqli, $catname)
         die();
     }
     $row_check = getRecord1Where($mysqli, 'cat_product', 'cat_name', $catname);
-    
+
     $num_row = mysqli_num_rows($row_check);
     /** @intelephense-ignore-line */
     if ($num_row > 0) {
@@ -286,4 +286,50 @@ function toalPagesPagingSearch($mysqli, $limit, $tb_name, $cl_name, $keyword)
     $total_results = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM $tb_name WHERE $cl_name LIKE '%$keyword%'"));
     // Tính tổng số trang
     return ceil($total_results / $limit);
+}
+function orderStatus($status)
+{
+    if ($status == 1) {
+        $status = "Unconfimred";
+    } elseif ($status == 2) {
+        $status = "Processing";
+    } elseif ($status == 3) {
+        $status = "Delivery";
+    } elseif ($status == 4) {
+        $status = "Successful delivery";
+    } elseif ($status == 5) {
+        $status = "Successful";
+    } elseif ($status == 0) {
+        $status = "Cancelled";
+    }
+    return $status;
+}
+function setStatusOrder($mysqli, $id, $status)
+{
+    $sql = "UPDATE orders SET status = '$status' WHERE order_id = '$id'";
+
+    // Execute the query
+    if (mysqli_query($mysqli, $sql)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function refreshAndGoBack()
+{
+    echo '<script>';
+    echo 'setTimeout(function() {';
+    echo '    history.go(-1);';
+    echo '}, 2000);';
+    echo '</script>';
+}
+function successAlert($message)
+{
+    $alert =         '<div class="container mt-5">
+                    <div class="alert alert-success" role="alert">
+                        <strong>Success!</strong> ' . $message . '
+                    </div>
+                    </div>';
+    return $alert;
 }
