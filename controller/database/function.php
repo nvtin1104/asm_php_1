@@ -299,6 +299,8 @@ function orderStatus($status)
         $status = "Successful delivery";
     } elseif ($status == 5) {
         $status = "Successful";
+    } elseif ($status == 6) {
+        $status = "Saved";
     } elseif ($status == 0) {
         $status = "Cancelled";
     }

@@ -41,4 +41,3 @@ if (isset($_POST['register'])) {
     $stmt->close();
     $mysqli->close();
 }
-?>

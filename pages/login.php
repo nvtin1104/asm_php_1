@@ -74,7 +74,7 @@ require('../inc/handle-register.php');
                     <option value="Women">Women</option>
                     <option value="Other">Other</option>
                 </select>
-                <input type="submit" class="btn-submit" value="Register" />
+                <input type="submit" class="btn-submit" name="register" value="Register" />
             </form>
         </div>
     </section>

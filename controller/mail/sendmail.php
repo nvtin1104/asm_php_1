@@ -2,6 +2,7 @@
 require '../libs/PHPMailer-master/src/PHPMailer.php';
 require '../libs/PHPMailer-master/src/SMTP.php';
 require '../libs/PHPMailer-master/src/Exception.php';
+require '../libs/PHPMailer-master/language/phpmailer.lang-vi.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;

@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <a class="btn btn-sm btn-primary" href="./index.php?m=orders&a=processed-order">View Processed Order</a>
     <h3>List Order:</h3>
     <div class="container mt-4">
         <table class="table table-striped">
@@ -30,7 +31,7 @@
             </thead>
             <tbody>
                 <?
-                $sql = "SELECT * FROM orders";
+                $sql = "SELECT * FROM orders WHERE status != 6";
                 $result = mysqli_query($mysqli, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
@@ -50,10 +51,13 @@
                             echo '<a href="./index.php?m=orders&a=action&d=delivery&id=' . $row["order_id"] . '" class="btn btn-primary">Delivery</a>'; // Edit button with a link to edit_product.php
                         }
                         if ($row["status"] == 4) {
-                            echo '<a href="./index.php?m=mail&a=sendmail&id='. $row["user_id"]. '&orderid='. $row['order_id'].'" class="btn btn-success">Send</a>'; // Edit button with a link to edit_product.php
+                            echo '<a href="./index.php?m=mail&a=sendmail&id=' . $row["user_id"] . '&orderid=' . $row['order_id'] . '" class="btn btn-success">Send</a>'; // Edit button with a link to edit_product.php
+                        }
+                        if ($row["status"] == 5 || $row["status"] == 0) {
+                            echo '<a href="./index.php?m=orders&a=save-order&id=' . $row["order_id"] . '" class="btn btn-primary">Save</a>'; // Edit button with a link to edit_product.php
                         }
                         echo ' ';
-                        if ($row["status"] != 0 && $row["status"] != 5 && $row["status"] !=4) {
+                        if ($row["status"] != 0 && $row["status"] != 5 && $row["status"] != 4) {
                             echo '<a href="./index.php?m=orders&a=action&d=cancel&id=' . $row["order_id"] . '" class="btn btn-danger">Cancel</a>'; // Edit button with a link to edit_product.php
                         }
                         echo "</td>";
