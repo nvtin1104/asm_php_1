@@ -254,6 +254,7 @@ main {
     }
 }
 
+
 .hover-content a {
     display: inline-block;
     color: var(--text-color-1);
@@ -266,12 +267,24 @@ main {
     transition: 0.4s ease-in-out;
 }
 
-.hover-content a:hover {
+.hover-content button {
+    border: none;
+    color: var(--text-color-1);
+    height: 45px;
+    width: 45px;
+    margin: 8px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--bg-color-1);
+    transition: 0.4s ease-in-out;
+}
+
+.hover-content a:hover,
+button:hover {
     color: var(--bg-color-1);
     background-color: var(--bg-color-2);
     transform: rotate(360deg);
     transition: 0.4s ease-in-out;
-
 }
 
 .hover-content a i {
