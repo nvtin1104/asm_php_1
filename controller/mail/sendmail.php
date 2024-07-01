@@ -25,13 +25,13 @@ if ($_GET['id']) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Địa chỉ máy chủ SMTP
         $mail->SMTPAuth   = true;                // Bật xác thực SMTP
-        $mail->Username   = 'camtinlqd123@gmail.com';     // Tên đăng nhập SMTP
-        $mail->Password   = 's';     // Mật khẩu SMTP
+        $mail->Username   = 'huybubaso@gmail.com';     // Tên đăng nhập SMTP
+        $mail->Password   = 'nrcslsheqzzkjnpp';     // Mật khẩu SMTP
         $mail->SMTPSecure = 'tls';               // Bật mã hóa TLS
         $mail->Port       = 587;                 // Cổng SMTP (TLS)
 
         // Thông tin người gửi và người nhận
-        $mail->setFrom('camtinlqd123@gmail.com', 'Ashion');
+        $mail->setFrom('huybubaso@gmail.com', 'Ashion');
         $mail->addAddress($email,  $name);
 
         // Nội dung email
