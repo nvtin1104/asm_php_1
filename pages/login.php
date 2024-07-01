@@ -4,6 +4,12 @@ require('../controller/database/user.php');
 require('../controller/database/function.php');
 require('../inc/handle-login.php');
 require('../inc/handle-register.php');
+global $mess;
+$error = $_SESSION['error'] ?? $_SESSION['success'];
+
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,13 +26,21 @@ require('../inc/handle-register.php');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
     <main>
 
         <div class="container-fluid login-main">
             <div id="toast">
-                <div id="img">Icon</div>
-                <div id="desc"><? global $mess ;echo $mess;?></div>
+                <div id="img">Mess</div>
+                <div id="desc"><?
+                                if (isset($mess)) {
+                                    echo $mess;
+                                }
+                                if (isset($error)) {
+                                    echo $error;
+                                }
+                                ?></div>
             </div>
             <a class="btn-back" href='../index.php'><i class="fa-solid fa-home"></i><span>Home</span></a>
             <div class="row login-bg">
@@ -66,14 +80,6 @@ require('../inc/handle-register.php');
                 <input type="text" name="txtUsername" placeholder="User name" />
                 <input type="password" name="txtPassword" placeholder="Password" />
                 <input type="text" name="txtEmail" placeholder="Email" />
-                <input type="text" name="txtFullname" placeholder="Full name" />
-                <input type="date" name="txtBirthday" placeholder="User name" />
-                <select name="txtSex">
-                    <option value="">Sex</option>
-                    <option value="Men">Men</option>
-                    <option value="Women">Women</option>
-                    <option value="Other">Other</option>
-                </select>
                 <input type="submit" class="btn-submit" name="register" value="Register" />
             </form>
         </div>
@@ -99,7 +105,11 @@ require('../inc/handle-register.php');
         }, 5000);
     }
     let showToast = <?php echo isset($showToast) && $showToast ? 'true' : 'false'; ?>;
-    if(showToast){
+    if (showToast) {
+        launch_toast();
+    }
+    let error = <?php echo isset($error) ? 'true'  : 'false'; ?>;
+    if (error) {
         launch_toast();
     }
 </script>

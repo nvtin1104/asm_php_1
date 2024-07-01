@@ -193,31 +193,6 @@ function isValidDate($date)
         return true; // Ngày hợp lệ
     }
 }
-
-function isValidEmail($email)
-{
-    // Biểu thức chính qui để kiểm tra địa chỉ email
-    $pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-
-    // Sử dụng hàm preg_match để kiểm tra
-    if (preg_match($pattern, $email)) {
-        return true; // Email hợp lệ
-    } else {
-        return false; // Email không hợp lệ
-    }
-}
-function isValidFullName($fullName)
-{
-    // Biểu thức chính qui kiểm tra tên đầy đủ chỉ chứa chữ cái và khoảng trắng
-    $pattern = '/^[a-zA-Z ]+$/';
-
-    // Sử dụng hàm preg_match để kiểm tra
-    if (preg_match($pattern, $fullName)) {
-        return true; // Tên đầy đủ hợp lệ
-    } else {
-        return false; // Tên đầy đủ không hợp lệ
-    }
-}
 function validateUser($username, $password, $fullname, $email, $birthday, $sex)
 {
     global $url_back;
@@ -247,6 +222,49 @@ function validateUser($username, $password, $fullname, $email, $birthday, $sex)
         die();
     }
 }
+function isValidEmail($email)
+{
+    // Biểu thức chính qui để kiểm tra địa chỉ email
+    $pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
+    // Sử dụng hàm preg_match để kiểm tra
+    if (preg_match($pattern, $email)) {
+        return true; // Email hợp lệ
+    } else {
+        return false; // Email không hợp lệ
+    }
+}
+function isValidFullName($fullName)
+{
+    // Biểu thức chính qui kiểm tra tên đầy đủ chỉ chứa chữ cái và khoảng trắng
+    $pattern = '/^[a-zA-Z ]+$/';
+
+    // Sử dụng hàm preg_match để kiểm tra
+    if (preg_match($pattern, $fullName)) {
+        return true; // Tên đầy đủ hợp lệ
+    } else {
+        return false; // Tên đầy đủ không hợp lệ
+    }
+}
+function validateRegister($username, $password,  $email)
+{
+
+    $patternUsername = '/^[a-zA-Z0-9_]{4,16}$/';
+    if (empty($username) || empty($password) || empty($email)) {
+        return "Vui lòng nhập đầy đủ thông tin.";
+    }
+    if (!preg_match($patternUsername, $username)) {
+        return "Tên đăng nhập phải có từ 4 đến 16 ký tự và không chứa ký";
+    }
+    if (!isValidPassword($password)) {
+        return "Mật khẩu phải có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 số, và có từ 8 đến 30 ký tự";
+    }
+    if (!isValidEmail($email)) {
+        return "Email không hợp lệ";
+    }
+}
+
+
 function paging($mysqli, $limit, $current_page, $tb_name)
 {
     // Tính vị trí bắt đầu của dữ liệu trong câu truy vấn

@@ -24,12 +24,12 @@
             <nav class="menu-mb">
                 <ul class="main-nav d-flex align-items-center">
                     <li><a href="./index.php">Home</a></li>
-                    <li><a href="#">Women's</a></li>
-                    <li><a href="#">Men's</a></li>
+                    <!-- <li><a href="#">Women's</a></li> -->
+                    <!-- <li><a href="#">Men's</a></li> -->
                     <li><a href="./index.php?m=pages&a=shop">Shop</a></li>
-                    <li><a href="#">Pages</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <!-- <li><a href="#">Pages</a></li> -->
+                    <!-- <li><a href="#">Blog</a></li> -->
+                    <!-- <li><a href="#">Contact</a></li> -->
                 </ul>
                 <label for="check" class="close-menu"><i class="fa-solid fa-xmark"></i></label>
                 <div class="btn-action d-flex">
@@ -40,7 +40,7 @@
                             $serializedUser = $_SESSION['current_user'];
                             $user = unserialize($serializedUser);
                             echo '<div class="login-control">
-                <a href="./frontend/accountManagement.php"><i class="fa-solid fa-user-large"></i></a>
+                <a href="./pages/user/user-dashboard.php"><i class="fa-solid fa-user-large"></i></a>
                 <div class="login-control__content">
                     <a class="text-login" href="./pages/user/user-dashboard.php">' . $user->username . '</a>
                     <form action="./controller/logout.php">

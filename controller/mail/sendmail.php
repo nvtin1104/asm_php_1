@@ -26,7 +26,7 @@ if ($_GET['id']) {
         $mail->Host       = 'smtp.gmail.com';  // Địa chỉ máy chủ SMTP
         $mail->SMTPAuth   = true;                // Bật xác thực SMTP
         $mail->Username   = 'camtinlqd123@gmail.com';     // Tên đăng nhập SMTP
-        $mail->Password   = 'fzefvczieneyoqrg';     // Mật khẩu SMTP
+        $mail->Password   = 's';     // Mật khẩu SMTP
         $mail->SMTPSecure = 'tls';               // Bật mã hóa TLS
         $mail->Port       = 587;                 // Cổng SMTP (TLS)
 

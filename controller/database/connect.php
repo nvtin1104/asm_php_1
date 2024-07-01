@@ -45,7 +45,7 @@ class DatabaseConnection {
 $host = 'localhost'; // Tên server, nếu dùng hosting free thì cần thay đổi
 $dbname = 'asm_php_1'; // Tên của Database
 $username = 'root'; // Tên sử dụng Database
-$password = '1104'; // Mật khẩu của tên sử dụng Database
+$password = ''; // Mật khẩu của tên sử dụng Database
 
 // Create a new database connection instance
 $dbConnection = new DatabaseConnection($host, $dbname, $username, $password);

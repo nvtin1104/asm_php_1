@@ -1,43 +1,59 @@
 <?php
-// Nếu không phải là sự kiện đăng ký thì không xử lý
+// Include necessary files and initialize variables (e.g., database connection, helper functions)
+// include 'config.php'; // assuming you have a config file for database connection
+// include 'functions.php'; // assuming you have a file for helper functions
+
+// If it's not a registration event, do not process
 if (isset($_POST['register'])) {
+    // Fetch user inputs
     $username = $_POST['txtUsername'];
     $password = $_POST['txtPassword'];
     $email = $_POST['txtEmail'];
-    $fullname = $_POST['txtFullname'];
-    $birthday = $_POST['txtBirthday'];
-    $sex = $_POST['txtSex'];
-    // Kiểm tra tên đăng nhập này đã có người dùng chưa
+
+    // Check if the username already exists
     $result = getRecord1Where($mysqli, 'users', 'username', $username);
-    $row = mysqli_num_rows($result);
-    if ($row > 0) {
-        echo "Tên đăng nhập này đã có người dùng. Vui lòng chọn tên đăng nhập khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION['error'] = "Tên đăng nhập này đã tồn tại. Vui lòng chọn tên khác.";
+        echo "<script>history.go(-1);</script>";
         exit;
     }
 
+    // Validate user inputs (assuming validateUser is a function that checks the validity of inputs)
+    $returnMess =  validateRegister($username, $password, $email);
+    if ($returnMess) {
+        $_SESSION['error'] = $returnMess;
+        echo "<script>history.go(-1);</script>";
+        exit;
+    }
 
-    validateUser($username, $password, $fullname, $email, $birthday, $sex);
-    $password = md5($password);
-    // Kiểm tra email đã có người dùng chưa
+    // Hash the password
+    $hashedPassword = md5($password); // Note: Consider using a stronger hashing algorithm like password_hash()
+
+    // Check if the email already exists
     $stmt = $mysqli->prepare("SELECT email FROM users WHERE email=?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        $_SESSION['error'] = "Email này đã tồn tại. Vui lòng chọn email khác.";
+        echo "<script>history.go(-1);</script>";
         exit;
     }
     $stmt->close();
 
-    // Sử dụng prepared statements để thêm thông tin thành viên vào bảng
-    $stmt = $mysqli->prepare("INSERT INTO users (username, password, email, fullname, birthday, sex) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $username, $password, $email, $fullname, $birthday, $sex);
+    // Use prepared statements to add the user information to the database
+    $stmt = $mysqli->prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $username, $hashedPassword, $email);
     if ($stmt->execute()) {
-        echo "Quá trình đăng ký thành công. <a href='./index.php'>Về trang chủ</a>";
-        die();
+        $_SESSION['success'] = "Đăng ký thành công.";
+        echo "<script>history.go(-1);</script>";
+        exit;
     } else {
-        echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='../login.php'>Thử lại</a>";
+        $_SESSION['error'] = "Có lỗi xảy ra.";
+        echo "<script>history.go(-1);</script>";
     }
     $stmt->close();
     $mysqli->close();
 }
+
+// Function to log errors and redirect back (assuming you have such a function in your helper file)
